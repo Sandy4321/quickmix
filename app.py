@@ -7,10 +7,10 @@ from operator import itemgetter
 # product_model = dill.load(open('static/recommender/cbr_model.p','rb'))
 
 app = Flask(__name__)
+app.config.from_object(os.environ['APP_SETTINGS'])
 
-app.config['DEBUG'] = True
-
-
+print os.environ['APP_SETTINGS']
+sys.stdout.flush()
 
 
 @app.route('/')
