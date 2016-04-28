@@ -18,8 +18,6 @@ track_model = gensim.models.Word2Vec.load('static/w2v/sample_shuffle2.w2v')
 def validateTracks(tracks):
 	output = []
 	for track in tracks:
-		print track
-		sys.stdout.flush()
 		if 'T_'+track['id'] in track_model:
 			output.append(track)
 	return output
@@ -59,10 +57,8 @@ def buildPlaylist(tracks,n_songs=15,n_influencers=5,validate=True):
 	tracks_per_track = int(math.ceil(1.*n_songs/n_influencers)) ## number of tracks to pull per influencer
 
 	for track in tracksSampled:
-		results = [w for w in track_model.most_similar(positive=['running','T_'+track],topn=100) if (re.match('T_',w[0]))]
-		print results
-		sys.stdout.flush()
-		plist.extend(random.sample(results[:15],tracks_per_track))
+		results = [{'id':w[0][2:],'score':w[1],'influencer':track} for w in track_model.most_similar(positive=['running','T_'+track],topn=100) if (re.match('T_',w[0]))]
+		plist.extend(random.sample(results[:20],tracks_per_track))
 	output = {'playlist':plist[:n_songs],'influencers':tracksSampled}
 	return output
 
@@ -72,13 +68,13 @@ app.config.from_object(os.environ['APP_SETTINGS'])
 
 @app.route('/')
 def index():
-	return render_template('index.html',status="Ribbon Gift Curation")
+	return render_template('index.html')
 
 
 @app.route('/login',methods=['GET','POST'])
 def login():
 	state = generateRandomString(16)
-	scope = 'user-top-read user-read-email'
+	scope = 'user-top-read user-read-email playlist-modify-public playlist-modify-private'
 	params ={'state':state,'scope':scope,'response_type':'code','client_id':app.config['SPOTIFY_CLIENT_ID'],'redirect_uri':app.config['REDIRECT_URI']}
 
 	response = make_response(redirect('https://accounts.spotify.com/authorize?'+urllib.urlencode(params)))
