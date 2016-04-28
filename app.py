@@ -1,9 +1,11 @@
 from flask import Flask, render_template, request, redirect, jsonify, make_response, session
 import numpy as np
-import sys,urllib,json,time,re,random,string
+import sys,urllib,json,time,re,random,string,math
 import os,base64,requests
 from datetime import date
 from operator import itemgetter
+import gensim
+from models import Playlist,Track
 
 stateKey = 'spotify_auth_state'
 
@@ -11,27 +13,62 @@ def generateRandomString(N):
 	possible = string.ascii_uppercase + string.digits + string.ascii_lowercase
 	return ''.join(random.SystemRandom().choice(possible) for _ in range(N))
 
-# product_model = dill.load(open('static/recommender/cbr_model.p','rb'))
+track_model = gensim.models.Word2Vec.load('static/w2v/sample_shuffle2.w2v')
+
+def validateTracks(tracks):
+	output = []
+	for track in tracks:
+		print track
+		sys.stdout.flush()
+		if 'T_'+track['id'] in track_model:
+			output.append(track)
+	return output
+
+
+def sampleTracks(tracks,n):
+	output = []
+	spent_artists = {}
+
+	random.shuffle(tracks)
+	k = 0
+	while k < n:
+		try:
+			t = tracks.pop()
+			if t['artist'] in spent_artists:
+				continue
+			else:
+				output.append(t['id'])
+				spent_artists[t['artist']] = 0
+				k += 1
+		except:
+			print 'sample error!'
+			sys.stdout.flush()
+			break
+	return output
+
+def buildPlaylist(tracks,n_songs=15,n_influencers=5,validate=True):
+	plist = []
+	if validate:
+		tracks = validateTracks(tracks)
+
+
+	tracksSampled = sampleTracks(tracks,n_influencers)
+
+	n_influencers = len(tracksSampled) ## must be as many tracks as influencers
+	
+	tracks_per_track = int(math.ceil(1.*n_songs/n_influencers)) ## number of tracks to pull per influencer
+
+	for track in tracksSampled:
+		results = [w for w in track_model.most_similar(positive=['running','T_'+track],topn=100) if (re.match('T_',w[0]))]
+		print results
+		sys.stdout.flush()
+		plist.extend(random.sample(results[:15],tracks_per_track))
+	output = {'playlist':plist[:n_songs],'influencers':tracksSampled}
+	return output
 
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
 
-def sumSessionCounter():
-	try:
-		session['counter'] += 1
-	except KeyError:
-		session['counter'] = 1
-
-@app.route('/page1')
-def p1():
-	sumSessionCounter()
-	return str(session['counter'])
-
-@app.route('/page2')
-def p2():
-	sumSessionCounter()
-	session['counter'] = session['counter']+1
-	return str(session['counter'])
 
 @app.route('/')
 def index():
@@ -41,7 +78,7 @@ def index():
 @app.route('/login',methods=['GET','POST'])
 def login():
 	state = generateRandomString(16)
-	scope = 'user-read-private user-read-email'
+	scope = 'user-top-read user-read-email'
 	params ={'state':state,'scope':scope,'response_type':'code','client_id':app.config['SPOTIFY_CLIENT_ID'],'redirect_uri':app.config['REDIRECT_URI']}
 
 	response = make_response(redirect('https://accounts.spotify.com/authorize?'+urllib.urlencode(params)))
@@ -82,8 +119,20 @@ def callback():
 			return redirect('/#error=invalid_token')
 
 
-	return 'called back'
 
+@app.route('/api/build',methods=['POST'])
+def build():
+	tracks = request.json['tracks']
+	t = time.time()
+	data = buildPlaylist(tracks,validate=True)
+	print time.time()-t
+	sys.stdout.flush()
+
+	return jsonify({'status':'ok','data':data})
+
+@app.route('/api/validate',methods=['POST'])
+def validate():
+	return jsonify(validateTracks(data['tracks']))
 
 if __name__ == '__main__':
 	app.run()

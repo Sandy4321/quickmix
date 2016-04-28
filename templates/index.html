@@ -25,12 +25,13 @@
       <div id="loggedin">
         <div id="user-profile">
         </div>
-        <div id="oauth">
+        <div id="playlist-tracks">
         </div>
-        <button class="btn btn-default" id="obtain-new-token">Obtain new token using the refresh token</button>
+        <button class="btn btn-default" id="build-playlist">Build a playlist from your library</button>
       </div>
     </div>
 
+    </div>
 
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script>
@@ -49,6 +50,7 @@
           return hashParams;
         }
 
+        var user_tracks = [];
         var params = getHashParams();
         var access_token = params.access_token,
             refresh_token = params.refresh_token,
@@ -57,18 +59,16 @@
           alert('There was an error during the authentication');
         } else {
           if (access_token) {
-            // render oauth info
-            oauthPlaceholder.innerHTML = oauthTemplate({
-              access_token: access_token,
-              refresh_token: refresh_token
-            });
+
             $.ajax({
-                url: 'https://api.spotify.com/v1/me',
+                url: 'https://api.spotify.com/v1/me/top/tracks?limit=100',
                 headers: {
                   'Authorization': 'Bearer ' + access_token
                 },
                 success: function(response) {
-                  userProfilePlaceholder.innerHTML = userProfileTemplate(response);
+                	for (i in response.items){
+                		user_tracks.push({'id':response.items[i].id,'artist':response.items[i].artists[0].id})
+                	}
                   $('#login').hide();
                   $('#loggedin').show();
                 }
@@ -78,20 +78,44 @@
               $('#login').show();
               $('#loggedin').hide();
           }
-          document.getElementById('obtain-new-token').addEventListener('click', function() {
-            $.ajax({
-              url: '/refresh_token',
-              data: {
-                'refresh_token': refresh_token
-              }
-            }).done(function(data) {
-              access_token = data.access_token;
-              oauthPlaceholder.innerHTML = oauthTemplate({
-                access_token: access_token,
-                refresh_token: refresh_token
-              });
-            });
-          }, false);
+
+          // Load playlist
+          document.getElementById('build-playlist').addEventListener('click', function() {
+
+	            data = {'tracks':user_tracks}
+	            console.log(data)
+			    $.ajax({
+			        type : "POST",
+			        url : "/api/build",
+			        data: JSON.stringify(data, null, '\t'),
+			        contentType: 'application/json;charset=UTF-8',
+			        success: function(result) {
+			            console.log(result);
+			        }
+			    });	            
+
+	      }, false);
+
+
+          //TODO ON BACKEND
+          // document.getElementById('obtain-new-token').addEventListener('click', function() {
+          //   $.ajax({
+          //     url: '/refresh_token',
+          //     data: {
+          //       'refresh_token': refresh_token
+          //     }
+          //   }).done(function(data) {
+          //     access_token = data.access_token;
+          //     oauthPlaceholder.innerHTML = oauthTemplate({
+          //       access_token: access_token,
+          //       refresh_token: refresh_token
+          //     });
+          //   });
+          // }, false);
+
+
+
+
         }
       })();
     </script>
