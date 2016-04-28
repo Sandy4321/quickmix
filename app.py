@@ -45,6 +45,7 @@ def sampleTracks(tracks,n):
 	return output
 
 def buildPlaylist(tracks,n_songs=15,n_influencers=5,validate=True):
+	running_sample_size = 15
 	plist = []
 	if validate:
 		tracks = validateTracks(tracks)
@@ -58,7 +59,7 @@ def buildPlaylist(tracks,n_songs=15,n_influencers=5,validate=True):
 
 	for track in tracksSampled:
 		results = [{'id':w[0][2:],'score':w[1],'influencer':track} for w in track_model.most_similar(positive=['running','T_'+track],topn=100) if (re.match('T_',w[0]))]
-		plist.extend(random.sample(results[:20],tracks_per_track))
+		plist.extend(random.sample(results[:running_sample_size],tracks_per_track))
 	output = {'playlist':plist[:n_songs],'influencers':tracksSampled}
 	return output
 
