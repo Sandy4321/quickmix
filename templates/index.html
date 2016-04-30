@@ -3,29 +3,7 @@
   <head>
     <title>Build personalized running and workout playlists from your Spotify account.</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-    <style type="text/css">
-      #login, #loggedin {
-        display: none;
-      }
-      .text-overflow {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        width: 500px;
-      }
-      .song, .artist, .album{
-      	height:40px;
-      	line-height: 40px;
-      }
-      .track{
-      	border-bottom: solid;
-      	border-width: 1px;
-      }
-      .header{
-      	border-bottom: solid;
-      	border-width: 2px;
-      }      
-    </style>
+    <link rel="stylesheet" href="../static/css/styles.css">
   </head>
 
 <body>
@@ -36,7 +14,7 @@
 		</div>
 		<div id="loggedin">
 			<div id="user-profile">
-			</div>      
+			</div>
 			<button class="btn btn-default" id="build-playlist">Build a playlist from your library</button>
 		</div>
 	</div>
@@ -46,16 +24,16 @@
 			BUILDING YOU A PLAYLIST...
 		</div>
 		<button class="btn btn-default hidden" id="export-playlist">Export to Spotify.</button>
-		<div id="exporting-complete" class="row hidden">EXPORTED!</div>		
+		<div id="exporting-complete" class="row hidden">EXPORTED!</div>
 		<div id="playlist-tracks" class="hidden">
 			<div class="header row">
 				<div class="col-xs-4">SONG</div>
 				<div class="col-xs-4">ARTIST</div>
 				<div class="col-xs-4">ALBUM</div>
 			</div>
-		</div>          
+		</div>
 	</div>
-	
+
 
 
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
@@ -81,7 +59,7 @@
 			for (i in tracks.data.playlist){
 				tracklist.push(tracks.data.playlist[i].id)
 			}
-        	
+
             $.ajax({
                 url: 'https://api.spotify.com/v1/tracks',
                 data: {'ids':tracklist.join()},
@@ -98,7 +76,7 @@
                 			'<div class="album col-xs-4">'+response.tracks[i].album.name+'</div>'+
                 			'</div>')
                 	}
-                	
+
                 	$playlisttracks.removeClass('hidden')
                 	$('#loading-playlist').addClass('hidden');
                 	$('#export-playlist').removeClass('hidden');
@@ -128,8 +106,8 @@
                   'Authorization': 'Bearer ' + access_token
                 },
                 success: function(response) {
-                	
-                	for (i in response.items){	
+
+                	for (i in response.items){
                 		user_tracks.push({'id':response.items[i].id,'artist':response.items[i].artists[0].id})
                 	}
                   $('#login').hide();
@@ -157,7 +135,7 @@
           document.getElementById('build-playlist').addEventListener('click', function() {
 
 	            data = {'tracks':user_tracks}
-	            
+
 			    $.ajax({
 			        type : "POST",
 			        url : "/api/build",
@@ -167,7 +145,7 @@
 			        	$('#loading-playlist').removeClass('hidden');
 			            buildPlaylist(result);
 			        }
-			    });	            
+			    });
 
 	      }, false);
 
@@ -185,7 +163,7 @@
 					data: JSON.stringify(data, null, '\t'),
 					headers: {
 					  'Authorization': 'Bearer ' + access_token
-					},					
+					},
 					contentType: 'application/json;charset=UTF-8',
 					success: function(result) {
 						playlist_id = result.id;
@@ -193,7 +171,7 @@
 						var tracklist = [];
 						for (i in playlist_tracks.tracks){
 							tracklist.push(playlist_tracks.tracks[i].uri)
-						}						
+						}
 
 						// Populate playlist with tracks
 						$.ajax({
@@ -211,7 +189,7 @@
 						});
 						///////
 					}
-				});	            
+				});
 
 	      }, false);
 
