@@ -81,14 +81,13 @@ def index():
 @app.route('/login',methods=['GET','POST'])
 def login():
 	state = generateRandomString(16)
+	pl = request.cookies.get('pl')
 	scope = 'user-top-read user-read-email playlist-modify-public playlist-modify-private'
 	params ={'state':state,'scope':scope,'response_type':'code','client_id':app.config['SPOTIFY_CLIENT_ID'],'redirect_uri':app.config['REDIRECT_URI']}
 
 	response = make_response(redirect('https://accounts.spotify.com/authorize?'+urllib.urlencode(params)))
 	response.set_cookie(stateKey, state)
-	sys.stdout.flush()
-
-
+	response.set_cookie('pl', pl)
 
 	return response
 
@@ -111,9 +110,10 @@ def callback():
 			D = json.loads(r.text)
 			access_token = D['access_token']
 			refresh_token = D['refresh_token']
+			pl = request.cookies.get('pl')
 
 			# session['access_token'] = access_token
-			response = make_response(redirect('/#'+urllib.urlencode({'access_token':access_token,'refresh_token':refresh_token})))
+			response = make_response(redirect('/tune#'+urllib.urlencode({'access_token':access_token,'refresh_token':refresh_token,'pl':pl})))
 			response.set_cookie(stateKey, '', expires=0)
 
 			return response
