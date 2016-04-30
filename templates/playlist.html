@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Your Playlist</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/styles.css">
+  </head>
+  <body class="playlist">
+  	<div class="container">
+  		<div id="loading-playlist" class="row hidden">
+  			BUILDING YOU A PLAYLIST...
+  		</div>
+  		<button class="btn btn-default hidden" id="export-playlist">Export to Spotify.</button>
+  		<div id="exporting-complete" class="row hidden">EXPORTED!</div>
+  		<div id="playlist-tracks" class="hidden">
+  			<div class="header row">
+  				<div class="col-xs-4">SONG</div>
+  				<div class="col-xs-4">ARTIST</div>
+  				<div class="col-xs-4">ALBUM</div>
+  			</div>
+  		</div>
+  	</div>
+
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="../static/js/playlist.js"></script>
+  </body>
+</html>
