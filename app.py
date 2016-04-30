@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, jsonify, make_response, session
+from flask.ext.basicauth import BasicAuth
 import numpy as np
 import sys,urllib,json,time,re,random,string,math
 import os,base64,requests
@@ -39,12 +40,12 @@ def sampleTracks(tracks,n):
 				spent_artists[t['artist']] = 0
 				k += 1
 		except:
-			print 'sample error!'
+			print 'not enough songs!'
 			sys.stdout.flush()
 			break
 	return output
 
-def buildPlaylist(tracks,n_songs=15,n_influencers=5,validate=True):
+def buildPlaylist(tracks,activity='run',n_songs=15,n_influencers=5,validate=True):
 	running_sample_size = 15
 	plist = []
 	if validate:
@@ -58,14 +59,19 @@ def buildPlaylist(tracks,n_songs=15,n_influencers=5,validate=True):
 	tracks_per_track = int(math.ceil(1.*n_songs/n_influencers)) ## number of tracks to pull per influencer
 
 	for track in tracksSampled:
-		results = [{'id':w[0][2:],'score':w[1],'influencer':track} for w in track_model.most_similar(positive=['running','T_'+track],topn=100) if (re.match('T_',w[0]))]
+		results = [{'id':w[0][2:],'score':w[1],'influencer':track} for w in track_model.most_similar(positive=[activity,'T_'+track],topn=100) if (re.match('T_',w[0]))]
 		plist.extend(random.sample(results[:running_sample_size],tracks_per_track))
 	output = {'playlist':plist[:n_songs],'influencers':tracksSampled}
 	return output
 
+
+
+
+
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
 
+basic_auth = BasicAuth(app)
 
 @app.route('/')
 def index():
@@ -129,7 +135,7 @@ def build():
 
 @app.route('/api/validate',methods=['POST'])
 def validate():
-	return jsonify(validateTracks(data['tracks']))
+	return jsonify({'status':'ok','tracks':validateTracks(data['tracks'])})
 
 if __name__ == '__main__':
 	app.run()

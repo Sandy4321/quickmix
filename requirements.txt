@@ -5,3 +5,4 @@ oauth==1.0.1
 oauthlib==0.7.2
 requests>=2.2.1
 simplejson==3.8.0
+Flask-BasicAuth==0.2.0
