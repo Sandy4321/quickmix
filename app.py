@@ -55,7 +55,7 @@ def buildPlaylist(tracks,activity='run',n_songs=15,n_influencers=5,validate=True
 	tracksSampled = sampleTracks(tracks,n_influencers)
 
 	n_influencers = len(tracksSampled) ## must be as many tracks as influencers
-	
+
 	tracks_per_track = int(math.ceil(1.*n_songs/n_influencers)) ## number of tracks to pull per influencer
 
 	for track in tracksSampled:
@@ -77,6 +77,13 @@ basic_auth = BasicAuth(app)
 def index():
 	return render_template('index.html')
 
+@app.route('/tune')
+def tune():
+	return render_template('tune.html')
+
+@app.route('/playlist')
+def pl():
+	return render_template('playlist.html')
 
 @app.route('/login',methods=['GET','POST'])
 def login():
