@@ -19,11 +19,22 @@ $(document).ready(function() {
             'Authorization': 'Bearer ' + access_token
           },
           success: function(response) {
+            console.log('spotify results')
             for (i in response.items){
               user_tracks.push({'id':response.items[i].id,'artist':response.items[i].artists[0].id})
             }
-            $('#login').hide();
-            $('#loggedin').show();
+            data = {'tracks':user_tracks,'category':'chill'}
+            $.ajax({
+                type : "POST",
+                url : "/api/validate",
+                data: JSON.stringify(data, null, '\t'),
+                contentType: 'application/json;charset=UTF-8',
+                success: function(result) {
+                  console.log(result)
+                  $('#login').hide();
+                  $('#loggedin').show();
+                }
+            });
           }
       });
 

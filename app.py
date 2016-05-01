@@ -14,7 +14,29 @@ def generateRandomString(N):
 	possible = string.ascii_uppercase + string.digits + string.ascii_lowercase
 	return ''.join(random.SystemRandom().choice(possible) for _ in range(N))
 
-track_model = gensim.models.Word2Vec.load('static/w2v/sample_shuffle2.w2v')
+track_model = gensim.models.Word2Vec.load('static/w2v/model_name_inject.w2v')
+category_map = {'chill':['sleep','relax','focus'],'party':['pregame','dance','late_night'],'workout':['warm_up','gym','cardio'],'hangout':['dinner','feel_good','bbq']}
+
+def categorizeTracks(tracks,category,ntracks=5):
+	category_results = {}
+	for subcat in category_map[category]:
+		scores = []
+		used_artists = {}
+		track_num = 0
+		for track in tracks:
+			track_score = track_model.similarity('T_'+track['id'],subcat)
+			if track['artist'] not in used_artists:
+				scores.append({'score':track_score,'id':track['id'],'artist':track['artist']})
+				used_artists[track['artist']] = (track_score,track_num)
+				track_num += 1
+			else:
+				if track_score > used_artists[track['artist']][0]:
+					old_track_num = used_artists[track['artist']][1]
+					used_artists[track['artist']] = (track_score,old_track_num)
+					scores[old_track_num] = {'score':track_score,'id':track['id'],'artist':track['artist']}
+	
+		category_results[subcat] = sorted(scores, key=itemgetter('score'), reverse=True)[:ntracks]
+	return category_results
 
 def validateTracks(tracks):
 	output = []
@@ -142,7 +164,13 @@ def build():
 
 @app.route('/api/validate',methods=['POST'])
 def validate():
-	return jsonify({'status':'ok','tracks':validateTracks(data['tracks'])})
+	tracks = request.json['tracks']
+	category = request.json['category']
+
+	validTracks = validateTracks(tracks)
+	relevantTracks = categorizeTracks(validTracks,category)
+
+	return jsonify({'status':'ok','tracks':relevantTracks})
 
 if __name__ == '__main__':
 	app.run()
