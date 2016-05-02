@@ -14,7 +14,7 @@ def generateRandomString(N):
 	possible = string.ascii_uppercase + string.digits + string.ascii_lowercase
 	return ''.join(random.SystemRandom().choice(possible) for _ in range(N))
 
-track_model = gensim.models.Word2Vec.load('static/w2v/model_name_inject.w2v')
+track_model = gensim.models.Word2Vec.load('static/w2v/sample_shuffle2.w2v')
 category_map = {'chill':['sleep','relax','focus'],'party':['pregame','dance','late_night'],'workout':['warm_up','gym','cardio'],'hangout':['dinner','feel_good','bbq']}
 
 def categorizeTracks(tracks,category,ntracks=5):
