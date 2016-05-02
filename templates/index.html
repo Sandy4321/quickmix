@@ -3,47 +3,42 @@
   <head>
     <title>Build personalized playlists for your Spotify account.</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=PT+Serif:700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="../static/css/styles.css">
+    <link rel="stylesheet" href="../static/css/index.css">
   </head>
   <body class="home">
-  	<div class="container">
+  	<div class="container-fluid">
       <div id="login">
     		<header>
-    			<h1>What kind of playlist do you want?</h1>
-    		<header>
-        <div class="playlist-option well">
-          <a href="/login?pl=chill" class="btn btn-primary">Create a <b>Chill</b> Playlist</a>
+    			<h1>Pick a playlist mood to get started.</h1>
+    		</header>
+        <div class="row">
+          <div class="col-xs-12 col-md-6">
+            <div class="playlist-option">
+              <a href="/login?pl=chill" class="btn btn-mood" id="btn-chill"><b>Chill</b></a>
+            </div>
+          </div>
+          <div class="col-xs-12 col-md-6">
+            <div class="playlist-option">
+              <a href="/login?pl=party" class="btn btn-mood" id="btn-party"><b>Party</b></a>
+            </div>
+          </div>
         </div>
-        <div class="playlist-option well">
-          <a href="/login?pl=party" class="btn btn-primary">Create a <b>Party</b> Playlist</a>
-        </div>
-        <div class="playlist-option well">
-          <a href="/login?pl=workout" class="btn btn-primary">Create a <b>Workout</b> Playlist</a>
-        </div>
-        <div class="playlist-option well">
-          <a href="/login?pl=hangout" class="btn btn-primary">Create a <b>Hangout</b> Playlist</a>
+        <div class="row">
+           <div class="col-xs-12 col-md-6">
+            <div class="playlist-option">
+              <a href="/login?pl=workout" class="btn btn-mood" id="btn-workout"><b>Workout</b></a>
+            </div>
+          </div>
+          <div class="col-xs-12 col-md-6">
+            <div class="playlist-option">
+              <a href="/login?pl=hangout" class="btn btn-mood" id="btn-hangout"><b>Hangout</b></a>
+             </div> 
+          </div>
         </div>
       </div>
-      <div id="loggedin">
-        <div id="user-profile">
-        </div>
-        <button class="btn btn-default" id="build-playlist">Build a playlist from your library</button>
-      </div>
-  	</div>
-
-  	<div class="container">
-  		<div id="loading-playlist" class="row hidden">
-  			BUILDING YOU A PLAYLIST...
-  		</div>
-  		<button class="btn btn-default hidden" id="export-playlist">Export to Spotify.</button>
-  		<div id="exporting-complete" class="row hidden">EXPORTED!</div>
-  		<div id="playlist-tracks" class="hidden">
-  			<div class="header row">
-  				<div class="col-xs-4">SONG</div>
-  				<div class="col-xs-4">ARTIST</div>
-  				<div class="col-xs-4">ALBUM</div>
-  			</div>
-  		</div>
   	</div>
 
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>

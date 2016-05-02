@@ -1,0 +1,224 @@
+@import "variables.less";
+@import "mixins.less";
+
+// Global Components
+
+body {
+	.body-font;
+	background-color: @background;
+}
+
+.container-fluid {
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.text-muted {
+	color: @gray;
+}
+
+
+p {
+	font-size: 14px;
+	line-height: 1.75;
+}
+
+p.large {
+	font-size: 16px;
+}
+
+a,
+a:hover,
+a:focus,
+a:active,
+a.active {
+	outline: none;
+}
+
+a:hover,
+a:focus,
+a:active,
+a.active {
+	color: darken(@background, 10%);
+}
+
+h1, h2, h3, h4, h5, h6 {
+	.heading-font;
+	font-weight: 700;
+}
+
+.img-centered {
+	margin: 0 auto;
+}
+
+.col-md-6{
+	padding: 0;
+}
+
+header {
+	text-align: center;
+	color: white;
+	h1{
+		font-size: 26px;
+		line-height: 127%;
+	    margin: 60px auto 50px auto;
+    	max-width: 280px;
+	}
+}
+
+#btn-chill{
+	color: @chill-dark;
+	background-color: @chill-light;
+}
+
+#btn-party{
+	color: @party-dark;
+	background-color: @party-light;
+}
+
+#btn-workout{
+	color: @workout-dark;
+	background-color: @workout-light;
+}
+
+#btn-hangout{
+	color: @hangout-dark;
+	background-color: @hangout-light;
+}
+
+.btn-mood{
+	width: 100%;
+	border-radius: 0;
+	height: 90px;
+	font-size: 48px;
+	text-transform: uppercase;
+	line-height: 90px;
+	padding: 0;
+	.mood-font;
+}
+
+.playlist-option{
+	width:100%;
+	margin: 0 auto;
+}
+
+@media(min-width:600px) {
+	.playlist-option{
+		width: 390px;
+	}
+	.btn-mood{
+		height: 111px;
+		font-size: 56px;
+		line-height: 111px;
+	}
+	header {
+		h1{
+			font-size: 46px;
+			line-height: 130%;
+		    margin: 60px auto 80px auto;
+	    	max-width: 460px;
+		}
+	}	
+}
+
+
+
+@media(min-width:992px) {
+	#btn-chill{
+		float: right;
+	}
+	#btn-party{
+		float: left;
+	}
+	#btn-workout{
+		float: right;
+	}
+	#btn-hangout{
+		float: left;
+	}	
+	.playlist-option{
+		width: 100%;
+	}
+	.btn-mood{
+		width: 390px;
+	}	
+}
+
+@media(min-width:1440px) {
+	.btn-mood{
+		width: 600px;
+		height: 170px;
+		font-size: 90px;
+		line-height: 170px;		
+	}
+	header {
+		h1{
+			font-size: 70px;
+			line-height: 129%;
+		    margin: 100px auto 150px auto;
+	    	max-width: 750px;
+		}
+	}	
+}
+
+
+
+
+
+
+
+
+
+// Social Buttons
+
+ul.social-buttons {
+	margin-bottom: 0;
+	li {
+		a {
+			display: block;
+			background-color: black;
+			height: 40px;
+			width: 40px;
+			border-radius: 100%;
+			font-size: 20px;
+			line-height: 40px;
+			color: white;
+			outline: none;
+	        -webkit-transition: all 0.3s;
+	        -moz-transition: all 0.3s;
+	        transition: all 0.3s;
+	        &:hover,
+	        &:focus,
+	        &:active {
+				background-color: blue;
+	        }
+		}
+	}
+}
+
+.btn:focus,
+.btn:active,
+.btn.active,
+.btn:active:focus {
+	outline: none;
+}
+
+// Highlight Color Customization
+
+::-moz-selection {
+    text-shadow: none;
+}
+
+::selection {
+    text-shadow: none;
+}
+
+img::selection {
+    background: transparent;
+}
+
+img::-moz-selection {
+    background: transparent;
+}

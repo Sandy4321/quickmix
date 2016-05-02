@@ -110,7 +110,8 @@ def pl():
 @app.route('/login',methods=['GET','POST'])
 def login():
 	state = generateRandomString(16)
-	pl = request.cookies.get('pl')
+	pl = request.args.get('pl')
+
 	scope = 'user-top-read user-read-email playlist-modify-public playlist-modify-private'
 	params ={'state':state,'scope':scope,'response_type':'code','client_id':app.config['SPOTIFY_CLIENT_ID'],'redirect_uri':app.config['REDIRECT_URI']}
 
