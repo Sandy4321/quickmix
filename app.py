@@ -101,8 +101,20 @@ def index():
 
 @app.route('/tune')
 def tune():
-	pl_type = request.args.get('pl')
-	return render_template('tune.html', pltype=pl_type);
+	pl_type = request.args.get('pl');
+
+	if pl_type == 'chill':
+	    tuners = ["Sleep","Relax","Focus"];
+	elif pl_type == 'party':
+		tuners = ["Pre-game","Second","Third"];
+	elif pl_type == 'workout':
+		tuners = ["First","Gym","Cardio"];
+	elif pl_type == 'hangout':
+		tuners = ["Dinner","Second","BBQ"];
+	else:
+		tuners = ["","",""];
+
+	return render_template('tune.html', type=pl_type, tuners=tuners);
 
 @app.route('/playlist')
 def pl():

@@ -5,7 +5,7 @@ $(document).ready(function() {
   var userid;
   var access_token = getURLParam("access_token");
   var refresh_token = getURLParam("refresh_token");
-  var playlist_option = getURLParam("pl");
+  var playlist_type = getURLParam("pl");
   var error = getURLParam("error");
 
   if (error) {

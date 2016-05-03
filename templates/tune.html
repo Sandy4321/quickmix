@@ -7,11 +7,30 @@
   </head>
   <body class="tune">
     <header>
-      <h1 class="pl-title">A {{ pltype }} playlist</h1>
-    </head>
-  	<div class="container">
-      We've found some of your top tracks to use to influence your playlist. Make any adjustments you want below.
-  	</div>
+      <h1 class="pl-title">A {{ type }} playlist</h1>
+      <h3>Tweak the options below, or <a href="#">make your playlist now</a></h3>
+    </header>
+    <section class="settings">
+      <p>What kind of <i>{{ type }}</i> are you looking for?</p>
+      <div class="radio">
+        <label>
+          <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
+          {{ tuners[0] }}
+        </label>
+      </div>
+      <div class="radio">
+        <label>
+          <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2" checked>
+          {{ tuners[1] }}
+        </label>
+      </div>
+      <div class="radio disabled">
+        <label>
+          <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
+          {{ tuners[2] }}
+        </label>
+      </div>
+    </section>
 
     <div id="loggedin">
       <div id="user-profile">
