@@ -1,2 +1,4 @@
 *.pyc
 .DS_Store
+.crunch
+static/css/index.css.map

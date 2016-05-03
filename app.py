@@ -34,7 +34,7 @@ def categorizeTracks(tracks,category,ntracks=5):
 					old_track_num = used_artists[track['artist']][1]
 					used_artists[track['artist']] = (track_score,old_track_num)
 					scores[old_track_num] = {'score':track_score,'id':track['id'],'artist':track['artist']}
-	
+
 		category_results[subcat] = sorted(scores, key=itemgetter('score'), reverse=True)[:ntracks]
 	return category_results
 
@@ -101,7 +101,8 @@ def index():
 
 @app.route('/tune')
 def tune():
-	return render_template('tune.html')
+	pl_type = request.args.get('pl')
+	return render_template('tune.html', pltype=pl_type);
 
 @app.route('/playlist')
 def pl():
@@ -143,7 +144,7 @@ def callback():
 			pl = request.cookies.get('pl')
 
 			# session['access_token'] = access_token
-			response = make_response(redirect('/tune#'+urllib.urlencode({'access_token':access_token,'refresh_token':refresh_token,'pl':pl})))
+			response = make_response(redirect('/tune?'+urllib.urlencode({'access_token':access_token,'refresh_token':refresh_token,'pl':pl})))
 			response.set_cookie(stateKey, '', expires=0)
 
 			return response

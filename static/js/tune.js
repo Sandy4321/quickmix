@@ -3,11 +3,10 @@ $(document).ready(function() {
   var user_tracks = [];
   var playlist_tracks;
   var userid;
-  var params = getHashParams();
-  var access_token = params.access_token,
-      refresh_token = params.refresh_token,
-      playlist_option = params.pl,
-      error = params.error;
+  var access_token = getURLParam("access_token");
+  var refresh_token = getURLParam("refresh_token");
+  var playlist_option = getURLParam("pl");
+  var error = getURLParam("error");
 
   if (error) {
     alert('There was an error during the authentication');
@@ -73,18 +72,12 @@ $(document).ready(function() {
 
   }
 
-  /**
-   * Obtains parameters from the hash of the URL
-   * @return Object
-   */
-  function getHashParams() {
-    var hashParams = {};
-    var e, r = /([^&;=]+)=?([^&;]*)/g,
-        q = window.location.hash.substring(1);
-    while ( e = r.exec(q)) {
-       hashParams[e[1]] = decodeURIComponent(e[2]);
-    }
-    return hashParams;
-  }
-
 });
+
+/*
+Parses params from URLS - uses location.search (requires ?var=a&var=b syntax - No hashes)
+http://stackoverflow.com/a/11582513
+*/
+function getURLParam(name) {
+  return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
+}
