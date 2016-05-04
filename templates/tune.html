@@ -15,7 +15,7 @@
         </div>
       </div>
     </div>
-    <div class="settings">
+    <div class="container">
       <p>What kind of <i>{{ type }}</i> are you looking for?</p>
       <div class="radio">
         <label>
@@ -35,20 +35,21 @@
           {{ tuners[2] }}
         </label>
       </div>
-    </div>
-    <div class="song-info-loading">
-      Loading...
-    </div>
-    <div class="influencers hidden">
-      <p>These songs will be used as input to make your playlist. Uncheck any you don’t want us to use.</p>
-      <div class="song-info">
+      <div class="song-info-loading">
+        Loading...
       </div>
-    </div>
+      <div class="influencers hidden">
+        <p>These songs will be used as input to make your playlist. Uncheck any you don’t want us to use.</p>
+        <div class="song-info">
+        </div>
+      </div>
 
-    <div id="loggedin">
-      <div id="user-profile">
+      <div id="loggedin">
+        <div id="user-profile">
+        </div>
+        <button class="btn btn-default" id="go-to-playlist">Make my playlist</button>
       </div>
-      <button class="btn btn-default" id="go-to-playlist">Make my playlist</button>
+
     </div>
 
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>

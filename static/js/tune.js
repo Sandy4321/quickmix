@@ -32,6 +32,7 @@ $(document).ready(function() {
                   console.log(result)
                   $('.song-info-loading').hide();
                   $('.influencers').removeClass("hidden");
+                  $('#loggedin').show();
                 }
             });
           }
