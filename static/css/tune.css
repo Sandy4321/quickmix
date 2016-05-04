@@ -11,16 +11,16 @@ body {
   padding-left: 30px;
 }
 .hat h1 {
-  font-size: 58px;
-  margin-bottom: 20px;
+  font-size: 20px;
+  margin-bottom: 10px;
 }
 .hat h3 {
   font-family: 'PT Serif', serif;
   text-transform: none;
   color: #fff;
   margin-top: 0px;
-  margin-bottom: 50px;
-  font-size: 35px;
+  margin-bottom: 30px;
+  font-size: 24px;
 }
 .hat-workout {
   background-color: #FF73FF;
@@ -67,6 +67,34 @@ body {
 }
 .link-hangout {
   text-shadow: 0.35rem 0 #2FE7B1, 0.4rem 0 #2FE7B1, -0.35rem 0 #2FE7B1, -0.4rem 0 #2FE7B1;
+}
+@media only screen and (min-width: 600px) {
+  .underline-link {
+    text-decoration: none;
+    color: #fff;
+    background-position: 0 93%;
+    background-repeat: repeat-x;
+    background-size: 100% .40rem;
+    background-image: -webkit-linear-gradient(top, transparent 50%, rgba(255, 255, 255, 0.5) 50%);
+    background-image: linear-gradient(to bottom, transparent 50%, rgba(255, 255, 255, 0.5) 50%);
+  }
+  .underline-link:hover {
+    text-decoration: none;
+    color: #fff;
+    background-position: 0 93%;
+    background-repeat: repeat-x;
+    background-size: 100% .40rem;
+    background-image: -webkit-linear-gradient(top, transparent 50%, #ffffff 50%);
+    background-image: linear-gradient(to bottom, transparent 50%, #ffffff 50%);
+  }
+  .hat h1 {
+    font-size: 58px;
+    margin-bottom: 20px;
+  }
+  .hat h3 {
+    margin-bottom: 50px;
+    font-size: 35px;
+  }
 }
 
 /*# sourceMappingURL=tune.css.map */
