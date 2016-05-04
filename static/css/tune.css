@@ -1,0 +1,72 @@
+body {
+  font-family: 'Libre Baskerville', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-color: #fff;
+}
+.hat {
+  width: 100%;
+  height: 100%;
+  height: calc(99%);
+  font-family: 'Source Sans Pro', sans-serif;
+  text-transform: uppercase;
+  padding-left: 30px;
+}
+.hat h1 {
+  font-size: 58px;
+  margin-bottom: 20px;
+}
+.hat h3 {
+  font-family: 'PT Serif', serif;
+  text-transform: none;
+  color: #fff;
+  margin-top: 0px;
+  margin-bottom: 50px;
+  font-size: 35px;
+}
+.hat-workout {
+  background-color: #FF73FF;
+  color: #FF00FF;
+}
+.hat-chill {
+  background-color: #0066FF;
+  color: #0000FE;
+}
+.hat-party {
+  background-color: #FFE001;
+  color: #FFAA01;
+}
+.hat-hangout {
+  background-color: #2FE7B1;
+  color: #00C98A;
+}
+.underline-link {
+  text-decoration: none;
+  color: #fff;
+  background-position: 0 93%;
+  background-repeat: repeat-x;
+  background-size: 100% .40rem;
+  background-image: -webkit-linear-gradient(top, transparent 50%, rgba(255, 255, 255, 0.5) 50%);
+  background-image: linear-gradient(to bottom, transparent 50%, rgba(255, 255, 255, 0.5) 50%);
+}
+.underline-link:hover {
+  text-decoration: none;
+  color: #fff;
+  background-position: 0 93%;
+  background-repeat: repeat-x;
+  background-size: 100% .40rem;
+  background-image: -webkit-linear-gradient(top, transparent 50%, #ffffff 50%);
+  background-image: linear-gradient(to bottom, transparent 50%, #ffffff 50%);
+}
+.link-workout {
+  text-shadow: 0.35rem 0 #FF73FF, 0.4rem 0 #FF73FF, -0.35rem 0 #FF73FF, -0.4rem 0 #FF73FF;
+}
+.link-chill {
+  text-shadow: 0.35rem 0 #0066FF, 0.4rem 0 #0066FF, -0.35rem 0 #0066FF, -0.4rem 0 #0066FF;
+}
+.link-party {
+  text-shadow: 0.35rem 0 #FFE001, 0.4rem 0 #FFE001, -0.35rem 0 #FFE001, -0.4rem 0 #FFE001;
+}
+.link-hangout {
+  text-shadow: 0.35rem 0 #2FE7B1, 0.4rem 0 #2FE7B1, -0.35rem 0 #2FE7B1, -0.4rem 0 #2FE7B1;
+}
+
+/*# sourceMappingURL=tune.css.map */

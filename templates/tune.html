@@ -4,13 +4,18 @@
     <title>Tune</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="../static/css/styles.css">
+    <link rel="stylesheet" href="../static/css/tune.css">
   </head>
   <body class="tune">
-    <header>
-      <h1 class="pl-title">A {{ type }} playlist</h1>
-      <h3>Tweak the options below, or <a href="#">make your playlist now</a></h3>
-    </header>
-    <section class="settings">
+    <div class="hat hat-{{type}}">
+      <div class="container">
+        <div class="row">
+          <h1 class="pl-title"><b>A {{ type }} playlist</b></h1>
+          <h3>Tweak the options below, or <a class="underline-link link-{{type}}" href="#">make your playlist now.</a></h3>
+        </div>
+      </div>
+    </div>
+    <div class="settings">
       <p>What kind of <i>{{ type }}</i> are you looking for?</p>
       <div class="radio">
         <label>
@@ -30,7 +35,15 @@
           {{ tuners[2] }}
         </label>
       </div>
-    </section>
+    </div>
+    <div class="song-info-loading">
+      Loading...
+    </div>
+    <div class="influencers hidden">
+      <p>These songs will be used as input to make your playlist. Uncheck any you don’t want us to use.</p>
+      <div class="song-info">
+      </div>
+    </div>
 
     <div id="loggedin">
       <div id="user-profile">

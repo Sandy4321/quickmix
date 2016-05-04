@@ -30,8 +30,8 @@ $(document).ready(function() {
                 contentType: 'application/json;charset=UTF-8',
                 success: function(result) {
                   console.log(result)
-                  $('#login').hide();
-                  $('#loggedin').show();
+                  $('.song-info-loading').hide();
+                  $('.influencers').removeClass("hidden");
                 }
             });
           }

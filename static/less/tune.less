@@ -1,0 +1,80 @@
+@import "variables.less";
+@import "mixins.less";
+
+// Global Components
+
+body {
+	.body-font;
+	background-color: #fff;
+}
+
+.hat {
+	width:100%;
+	height:100%;
+	height:calc(100% - 1px);
+	.mood-font;
+	text-transform: uppercase;
+	padding-left: 30px;
+	h1 {
+		font-size: 58px;
+		margin-bottom: 20px;
+	}
+	h3 {
+		.heading-font;
+		text-transform: none;
+		color: #fff;
+		margin-top: 0px;
+		margin-bottom: 50px;
+		font-size: 35px;
+	}
+}
+
+.hat-workout {
+	background-color: @workout-light;
+	color: @workout-dark;
+}
+.hat-chill {
+	background-color: @chill-light;
+	color: @chill-dark;
+}
+.hat-party {
+	background-color: @party-light;
+	color: @party-dark;
+}
+.hat-hangout {
+	background-color: @hangout-light;
+	color: @hangout-dark;
+}
+
+.underline-link {
+	text-decoration: none;
+	color: #fff;
+	background-position: 0 93%;
+	background-repeat: repeat-x;
+	background-size: 100% .40rem;
+	background-image: -webkit-linear-gradient(top, transparent 50%, rgba(255,255,255,0.5) 50%);
+	background-image: linear-gradient(to bottom, transparent 50%, rgba(255,255,255,0.5) 50%);
+}
+
+.underline-link:hover {
+	text-decoration: none;
+	color: #fff;
+	background-position: 0 93%;
+	background-repeat: repeat-x;
+	background-size: 100% .40rem;
+	background-image: -webkit-linear-gradient(top, transparent 50%, rgba(255,255,255,1) 50%);
+	background-image: linear-gradient(to bottom, transparent 50%, rgba(255,255,255,1) 50%);
+}
+
+.link-workout {
+	text-shadow: 0.35rem 0 @workout-light, 0.4rem 0 @workout-light, -0.35rem 0 @workout-light, -0.4rem 0 @workout-light;
+}
+.link-chill {
+	text-shadow: 0.35rem 0 @chill-light, 0.4rem 0 @chill-light, -0.35rem 0 @chill-light, -0.4rem 0 @chill-light;
+}
+.link-party {
+	text-shadow: 0.35rem 0 @party-light, 0.4rem 0 @party-light, -0.35rem 0 @party-light, -0.4rem 0 @party-light;
+}
+.link-hangout {
+	text-shadow: 0.35rem 0 @hangout-light, 0.4rem 0 @hangout-light, -0.35rem 0 @hangout-light, -0.4rem 0 @hangout-light;
+}
