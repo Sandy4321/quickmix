@@ -6,6 +6,7 @@
 body {
 	.body-font;
 	background-color: @background;
+	-webkit-font-smoothing: antialiased;
 }
 
 .container-fluid {
@@ -163,9 +164,52 @@ header {
 
 
 
+/* The Overlay (background) */
+.overlay {   
+    height: 0;
+    width: 100%;
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    background-color: rgb(7,11,19); /* Black fallback color */
+    background-color: rgba(7,11,19,.94); /* Black w/opacity */
+    overflow-x: hidden; /* Disable horizontal scroll */
+    transition: 0.3s;
+}
 
+/* Position the content inside the overlay */
+.overlay-content {
+	position: relative;
+	top: 25%; /* 25% from the top */
+	width: 100%; /* 100% width */
+	text-align: center; /* Centered text/links */
+	img {
+		width: 66px;
+		height: 66px;
+	}
+	h1 {
+		width: 275px;
+		font-size: 26px;
+		font-weight: 700;
+		margin: 18px auto;
+		color: white;
+    }
+}
 
-
+@media only screen and (min-width:768px) {
+.overlay-content {
+	img {
+		width: 84px;
+		height: 84px;
+	}
+	h1 {
+		width: 540px;
+		font-size: 45px;
+		margin: 29px auto;
+    }
+}
+}
 
 
 

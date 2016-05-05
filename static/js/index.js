@@ -1,3 +1,8 @@
+function openOverlay(URL) {
+  document.getElementById("spotifyOverlay").style.height = "100%";
+  setTimeout( function() { window.location = URL }, 1500 );
+}
+
 $(document).ready(function() {
 
   var user_tracks = [];

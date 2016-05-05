@@ -106,11 +106,11 @@ def tune():
 	if pl_type == 'chill':
 	    tuners = ["Sleep","Relax","Focus"];
 	elif pl_type == 'party':
-		tuners = ["Pre-game","Second","Third"];
+		tuners = ["Pre-game","Dance","Late Night"];
 	elif pl_type == 'workout':
-		tuners = ["First","Gym","Cardio"];
+		tuners = ["Warm Up","Gym","Cardio"];
 	elif pl_type == 'hangout':
-		tuners = ["Dinner","Second","BBQ"];
+		tuners = ["Dinner","Feel Good","BBQ"];
 	else:
 		tuners = ["","",""];
 

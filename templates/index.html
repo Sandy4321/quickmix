@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>Build personalized playlists for your Spotify account.</title>
+    <title>HOTLIST - Personalized playlists for whatever.</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:700' rel='stylesheet' type='text/css'>
@@ -10,6 +10,19 @@
     <link rel="stylesheet" href="../static/css/index.css">
   </head>
   <body class="home">
+
+
+    <!-- The overlay -->
+    <div id="spotifyOverlay" class="overlay">
+
+      <!-- Overlay content -->
+      <div class="overlay-content">
+        <img class="spotify-logo" src="{{ url_for('static', filename='img/Spotify_Icon_RGB_Green.png')}}">
+        <h1>Sending you to Spotify to sign in…</h1>
+      </div>
+
+    </div>
+
   	<div class="container-fluid">
       <div id="login">
     		<header>
@@ -18,24 +31,24 @@
         <div class="row">
           <div class="col-xs-12 col-md-6">
             <div class="playlist-option">
-              <a href="/login?pl=chill" class="btn btn-mood" id="btn-chill"><b>Chill</b></a>
+              <a href="javascript:openOverlay('/login?pl=chill')" class="btn btn-mood" id="btn-chill"><b>Chill</b></a>
             </div>
           </div>
           <div class="col-xs-12 col-md-6">
             <div class="playlist-option">
-              <a href="/login?pl=party" class="btn btn-mood" id="btn-party"><b>Party</b></a>
+              <a href="javascript:openOverlay('/login?pl=party')" class="btn btn-mood" id="btn-party"><b>Party</b></a>
             </div>
           </div>
         </div>
         <div class="row">
            <div class="col-xs-12 col-md-6">
             <div class="playlist-option">
-              <a href="/login?pl=workout" class="btn btn-mood" id="btn-workout"><b>Workout</b></a>
+              <a href="javascript:openOverlay('/login?pl=workout')" class="btn btn-mood" id="btn-workout"><b>Workout</b></a>
             </div>
           </div>
           <div class="col-xs-12 col-md-6">
             <div class="playlist-option">
-              <a href="/login?pl=hangout" class="btn btn-mood" id="btn-hangout"><b>Hangout</b></a>
+              <a href="javascript:openOverlay('/login?pl=hangout')" class="btn btn-mood" id="btn-hangout"><b>Hangout</b></a>
              </div> 
           </div>
         </div>
