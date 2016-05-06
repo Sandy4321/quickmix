@@ -1,6 +1,44 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
 body {
   font-family: 'Libre Baskerville', "Helvetica Neue", Helvetica, Arial, sans-serif;
   background-color: #fff;
+}
+body.tune-chill {
+  color: #0066FF;
+}
+body.tune-chill .hat {
+  color: #0000FE;
+  background-color: #0066FF;
+}
+body.tune-workout {
+  color: #FF73FF;
+}
+body.tune-workout .hat {
+  color: #FF00FF;
+  background-color: #FF73FF;
+}
+body.tune-hangout {
+  color: #00C98A;
+}
+body.tune-hangout .hat {
+  color: #00C98A;
+  background-color: #2FE7B1;
+}
+body.tune-party {
+  color: #FFAA01;
+}
+body.tune-party .hat {
+  color: #FFAA01;
+  background-color: #FFE001;
 }
 .hat {
   width: 100%;
@@ -8,13 +46,12 @@ body {
   height: calc(99%);
   font-family: 'Source Sans Pro', sans-serif;
   text-transform: uppercase;
-  padding-left: 30px;
 }
 .hat h1 {
   font-size: 20px;
   margin-bottom: 10px;
 }
-.hat h3 {
+.hat h2 {
   font-family: 'PT Serif', serif;
   text-transform: none;
   color: #fff;
@@ -22,21 +59,15 @@ body {
   margin-bottom: 30px;
   font-size: 24px;
 }
-.hat-workout {
-  background-color: #FF73FF;
-  color: #FF00FF;
+h3 {
+  font-family: 'PT Serif', serif;
+  font-size: 16px;
+  line-height: 23px;
+  letter-spacing: 0px;
 }
-.hat-chill {
-  background-color: #0066FF;
-  color: #0000FE;
-}
-.hat-party {
-  background-color: #FFE001;
-  color: #FFAA01;
-}
-.hat-hangout {
-  background-color: #2FE7B1;
-  color: #00C98A;
+hr {
+  border-color: #CACCD1;
+  margin-bottom: 0px;
 }
 .underline-link {
   text-decoration: none;
@@ -44,8 +75,8 @@ body {
   background-position: 0 93%;
   background-repeat: repeat-x;
   background-size: 100% .40rem;
-  background-image: -webkit-linear-gradient(top, transparent 50%, rgba(255, 255, 255, 0.5) 50%);
-  background-image: linear-gradient(to bottom, transparent 50%, rgba(255, 255, 255, 0.5) 50%);
+  background-image: -webkit-linear-gradient(top, transparent 50%, rgba(255, 255, 255, 0.5) 80%);
+  background-image: linear-gradient(to bottom, transparent 50%, rgba(255, 255, 255, 0.5) 80%);
 }
 .underline-link:hover {
   text-decoration: none;
@@ -53,8 +84,8 @@ body {
   background-position: 0 93%;
   background-repeat: repeat-x;
   background-size: 100% .40rem;
-  background-image: -webkit-linear-gradient(top, transparent 50%, #ffffff 50%);
-  background-image: linear-gradient(to bottom, transparent 50%, #ffffff 50%);
+  background-image: -webkit-linear-gradient(top, transparent 50%, #ffffff 80%);
+  background-image: linear-gradient(to bottom, transparent 50%, #ffffff 80%);
 }
 .link-workout {
   text-shadow: 0.35rem 0 #FF73FF, 0.4rem 0 #FF73FF, -0.35rem 0 #FF73FF, -0.4rem 0 #FF73FF;
@@ -68,22 +99,93 @@ body {
 .link-hangout {
   text-shadow: 0.35rem 0 #2FE7B1, 0.4rem 0 #2FE7B1, -0.35rem 0 #2FE7B1, -0.4rem 0 #2FE7B1;
 }
+.song-info-loading {
+  padding-top: 20px;
+  margin: 0 auto;
+  text-align: center;
+}
+/*
+Radio inputs
+*/
+.radio-inline {
+  padding-left: 0px;
+}
+.radio-inline + .radio-inline {
+  margin-left: 0px;
+}
+div:not(#foo) > input[type='radio'] {
+  opacity: 0;
+  float: left;
+  width: 18px;
+  display: inline;
+}
+div:not(#foo) > input[type='radio'] + label {
+  margin: 0;
+  clear: none;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 12px 0 11px 40px;
+  cursor: pointer;
+}
+body.tune-chill div:not(#foo) > input[type='radio'] + label {
+  background: url('../img/radio/radio-chill.svg') left center no-repeat;
+  background-size: 29px 29px;
+}
+body.tune-chill div:not(#foo) > input[type='radio']:checked + label {
+  background-image: url('../img/radio/radio-chill-selected.svg');
+  background-size: 29px 29px;
+}
+body.tune-party div:not(#foo) > input[type='radio'] + label {
+  background: url('../img/radio/radio-party.svg') left center no-repeat;
+  background-size: 29px 29px;
+}
+body.tune-party div:not(#foo) > input[type='radio']:checked + label {
+  background-image: url('../img/radio/radio-party-selected.svg');
+  background-size: 29px 29px;
+}
+body.tune-workout div:not(#foo) > input[type='radio'] + label {
+  background: url('../img/radio/radio-workout.svg') left center no-repeat;
+  background-size: 29px 29px;
+}
+body.tune-workout div:not(#foo) > input[type='radio']:checked + label {
+  background-image: url('../img/radio/radio-workout-selected.svg');
+  background-size: 29px 29px;
+}
+body.tune-hangout div:not(#foo) > input[type='radio'] + label {
+  background: url('../img/radio/radio-hangout.svg') left center no-repeat;
+  background-size: 29px 29px;
+}
+body.tune-hangout div:not(#foo) > input[type='radio']:checked + label {
+  background-image: url('../img/radio/radio-hangout-selected.svg');
+  background-size: 29px 29px;
+}
+.radio-inline {
+  display: block;
+}
+/*
+Media Queries
+*/
 @media only screen and (min-width: 600px) {
+  .options {
+    padding: 18px 0px 12px 0px;
+  }
+  .radio-inline + .radio-inline {
+    margin-left: 20px;
+  }
+  .radio-input {
+    margin-top: 12px;
+  }
+  div:not(#foo) > input[type='radio'] + label {
+    font-size: 26px;
+    padding: 12px 0 11px 38px;
+    background: url('../img/radio-chill.svg') left center no-repeat;
+  }
   .underline-link {
-    text-decoration: none;
-    color: #fff;
-    background-position: 0 93%;
-    background-repeat: repeat-x;
-    background-size: 100% .40rem;
     background-image: -webkit-linear-gradient(top, transparent 50%, rgba(255, 255, 255, 0.5) 50%);
     background-image: linear-gradient(to bottom, transparent 50%, rgba(255, 255, 255, 0.5) 50%);
   }
   .underline-link:hover {
-    text-decoration: none;
-    color: #fff;
-    background-position: 0 93%;
-    background-repeat: repeat-x;
-    background-size: 100% .40rem;
     background-image: -webkit-linear-gradient(top, transparent 50%, #ffffff 50%);
     background-image: linear-gradient(to bottom, transparent 50%, #ffffff 50%);
   }
@@ -91,9 +193,21 @@ body {
     font-size: 58px;
     margin-bottom: 20px;
   }
-  .hat h3 {
+  .hat h2 {
     margin-bottom: 50px;
     font-size: 35px;
+  }
+  .radio-inline {
+    display: inline-block;
+  }
+}
+@media only screen and (min-width: 992px) {
+  .options {
+    padding: 28px 0px 20px 0px;
+  }
+  h3 {
+    font-family: 'PT Serif', serif;
+    font-size: 20px;
   }
 }
 
