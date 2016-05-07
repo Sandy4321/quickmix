@@ -1,6 +1,6 @@
 function openOverlay(URL) {
   document.getElementById("spotifyOverlay").style.height = "100%";
-  setTimeout( function() { window.location = URL }, 1500 );
+  setTimeout( function() { window.location = URL }, 1200 );
 }
 
 $(document).ready(function() {

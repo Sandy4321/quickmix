@@ -6,41 +6,89 @@
     <link rel="stylesheet" href="../static/css/styles.css">
     <link rel="stylesheet" href="../static/css/tune.css">
   </head>
-  <body class="tune">
-    <div class="hat hat-{{type}}">
+  <body class="tune tune-{{type}}">
+    <div class="hat">
       <div class="container">
         <div class="row">
-          <h1 class="pl-title"><b>A {{ type }} playlist</b></h1>
-          <h3>Tweak the options below, or <a class="underline-link link-{{type}}" href="#">make your playlist now.</a></h3>
+          <div class="col-xs-12 col-sm-12 col-md-12">
+            <h1 class="pl-title"><b>A {{ type }} playlist</b></h1>
+            <h2>Tweak the options below, or <a class="underline-link link-{{type}}" href="#">make your playlist now.</a></h2>
+          </div>
         </div>
       </div>
     </div>
     <div class="container">
-      <p>What kind of <i>{{ type }}</i> are you looking for?</p>
-      <div class="radio">
-        <label>
-          <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
-          {{ tuners[0] }}
-        </label>
+      <div class="row options">
+        <div class="col-xs-12 col-sm-3 col-md-3">
+          <h3>What kind of <i>{{ type }}</i> are you looking for?</h3>
+        </div>
+        <div class="col-sm-offset-1 col-sm-8 col-md-offset-1 col-md-8 col-xs-12">
+          <div class="radio-input">
+            <div class="radio-inline" data-bind="visible: moodSpectrum">
+                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" data-bind="checked: moodOption">
+                <label for="optionsRadios1">{{ tuners[0] }}</label>
+            </div>
+            <div class="radio-inline">
+                <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2" data-bind="checked: moodOption">
+                <label for="optionsRadios2">{{ tuners[1] }}</label>
+            </div>
+            <div class="radio-inline">
+                <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3" data-bind="checked: moodOption">
+                <label for="optionsRadios3">{{ tuners[2] }}</label>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="radio">
-        <label>
-          <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2" checked>
-          {{ tuners[1] }}
-        </label>
-      </div>
-      <div class="radio disabled">
-        <label>
-          <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
-          {{ tuners[2] }}
-        </label>
-      </div>
-      <div class="song-info-loading">
-        Loading...
-      </div>
-      <div class="influencers hidden">
-        <p>We will find {{ type }} songs that are also similar to some of your favorites. Uncheck any you don’t want us to use.</p>
-        <div class="song-info">
+      <hr/>
+      <div class="row options">
+        <div class="col-xs-12 col-sm-3 col-md-3">
+          <h3>We will find {{ type }} songs similar to some of your favorites. </h3>
+          <h3>Uncheck any you don’t want us to use.</h3>
+        </div>
+        <div class="col-sm-offset-1 col-sm-8 col-md-offset-1 col-md-8 col-xs-12">
+          <div class="song-info-loading"><img src="../static/img/spinner-{{type}}.gif" width="60" height="60"/></div>
+          <div class="influencers hidden">
+            <div class="song-info">
+
+
+              <table data-bind="visible: moodOption() == 'option1'">
+                <tbody data-bind="foreach: songs1">
+                  <tr class= "song-container">
+                      <td class="coverart" data-bind="style: { backgroundImage: 'url(\'' + coverart + '\')' }"><input type="checkbox" data-bind="checked: includeInfluencer" /></td>
+                      <td class='divider'>&nbsp;</td>
+                      <td class="song-text"><h6 data-bind="text: title"></h6><h5 data-bind="text: artist"></h5></td>
+                      <td class="preview"><button data-bind="click: $root.playSong">Play Preview</button></td>
+                  </tr>
+                  <tr class="spacer"></tr>
+                </tbody>
+              </table>
+
+              <table data-bind="visible: moodOption() == 'option2'">
+                <tbody data-bind="foreach: songs2">
+                  <tr class= "song-container">
+                      <td class="coverart" data-bind="style: { backgroundImage: 'url(\'' + coverart + '\')' }"><input type="checkbox" data-bind="checked: includeInfluencer" /></td>
+                      <td class='divider'>&nbsp;</td>
+                      <td class="song-text"><h6 data-bind="text: title"></h6><h5 data-bind="text: artist"></h5></td>
+                      <td class="preview"><button data-bind="click: $root.playSong">Play Preview</button></td>
+                  </tr>
+                  <tr class="spacer"></tr>
+                </tbody>
+              </table>
+
+              <table data-bind="visible: moodOption() == 'option3'">
+                <tbody data-bind="foreach: songs3">
+                  <tr class= "song-container">
+                      <td class="coverart" data-bind="style: { backgroundImage: 'url(\'' + coverart + '\')' }"><input type="checkbox" data-bind="checked: includeInfluencer" /></td>
+                      <td class='divider'>&nbsp;</td>
+                      <td class="song-text"><h6 data-bind="text: title"></h6><h5 data-bind="text: artist"></h5></td>
+                      <td class="preview"><button data-bind="click: $root.playSong">Play Preview</button></td>
+                  </tr>
+                  <tr class="spacer"></tr>
+                </tbody>
+              </table>
+
+            </div>
+          </div>
         </div>
       </div>
 
@@ -53,6 +101,8 @@
     </div>
 
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/async/1.5.2/async.min.js"></script>
     <script src="../static/js/tune.js"></script>
   </body>
 </html>
