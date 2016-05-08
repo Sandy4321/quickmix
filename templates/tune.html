@@ -53,7 +53,10 @@
               <div data-bind="visible: moodOption() == 'option1'">
                 <div data-bind="foreach: songs1">
                   <div class= "song-container">
-                    <div class="coverart" data-bind="style: { backgroundImage: 'url(\'' + coverart + '\')' }"><input type="checkbox" data-bind="checked: includeInfluencer" /></div>
+                    <div class="coverart" data-bind="style: { backgroundImage: 'url(\'' + coverart + '\')' }">
+                      <input class="hidden" type="checkbox" data-bind="checked: includeInfluencer,attr: { id: trackid}" />
+                      <label class="track-checkbox" data-bind="attr: { for: trackid}"></label>
+                    </div>
                     <div class='divider'>&nbsp;</div>
                     <div class="song-text"><h6 data-bind="text: title"></h6><h5 data-bind="text: artist"></h5></div>
                     <div class="preview"><button data-bind="click: $root.playSong">Play Preview</button></div>
@@ -64,7 +67,10 @@
               <div data-bind="visible: moodOption() == 'option2'">
                 <div data-bind="foreach: songs2">
                   <div class= "song-container">
-                    <div class="coverart" data-bind="style: { backgroundImage: 'url(\'' + coverart + '\')' }"><input type="checkbox" data-bind="checked: includeInfluencer" /></div>
+                    <div class="coverart" data-bind="style: { backgroundImage: 'url(\'' + coverart + '\')' }">
+                      <input class="hidden" type="checkbox" data-bind="checked: includeInfluencer,attr: { id: trackid}" />
+                      <label class="track-checkbox" data-bind="attr: { for: trackid}"></label>
+                    </div>
                     <div class='divider'>&nbsp;</div>
                     <div class="song-text"><h6 data-bind="text: title"></h6><h5 data-bind="text: artist"></h5></div>
                     <div class="preview"><button data-bind="click: $root.playSong">Play Preview</button></div>
@@ -75,7 +81,10 @@
               <div data-bind="visible: moodOption() == 'option3'">
                 <div data-bind="foreach: songs3">
                   <div class= "song-container">
-                    <div class="coverart" data-bind="style: { backgroundImage: 'url(\'' + coverart + '\')' }"><input type="checkbox" data-bind="checked: includeInfluencer" /></div>
+                    <div class="coverart" data-bind="style: { backgroundImage: 'url(\'' + coverart + '\')' }">
+                      <input class="hidden" type="checkbox" data-bind="checked: includeInfluencer,attr: { id: trackid}" />
+                      <label class="track-checkbox" data-bind="attr: { for: trackid}"></label>
+                    </div>
                     <div class='divider'>&nbsp;</div>
                     <div class="song-text"><h6 data-bind="text: title"></h6><h5 data-bind="text: artist"></h5></div>
                     <div class="preview"><button data-bind="click: $root.playSong">Play Preview</button></div>
