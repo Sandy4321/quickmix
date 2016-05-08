@@ -1,7 +1,8 @@
 ///////////// Knockout.js definitions //////////////
 
-function Song(title, artist, coverart, previewURL) {
+function Song(trackid, title, artist, coverart, previewURL) {
     var self = this;
+    self.trackid = trackid
     self.title = title;
     self.artist = artist;
     self.coverart = coverart
@@ -23,17 +24,39 @@ function InfluencersViewModel() {
 
     
     // Operations
-    self.addSong = function(title,artist,coverart,option,previewURL) {
+    self.addSong = function(trackid,title,artist,coverart,option,previewURL) {
       if (option == 'option1'){
-        self.songs1.push(new Song(title,artist,coverart,previewURL));
+        self.songs1.push(new Song(trackid,title,artist,coverart,previewURL));
       }
       else if (option == 'option2'){
-        self.songs2.push(new Song(title,artist,coverart,previewURL));
+        self.songs2.push(new Song(trackid,title,artist,coverart,previewURL));
       }
       else if (option == 'option3'){
-        self.songs3.push(new Song(title,artist,coverart,previewURL));
+        self.songs3.push(new Song(trackid,title,artist,coverart,previewURL));
       }      
     }
+
+    self.influencers = ko.computed(function() {
+       var trackids = [];
+       if (self.moodOption() == 'option1') {
+         for (var i = 0; i < self.songs1().length; i++){
+             trackids.push(self.songs1()[i].trackid);
+             }
+         return trackids;        
+       }
+       else if (self.moodOption() == 'option2') {
+         for (var i = 0; i < self.songs2().length; i++){
+             trackids.push(self.songs2()[i].trackid);
+             }
+         return trackids;        
+       }       
+       else if (self.moodOption() == 'option3') {
+         for (var i = 0; i < self.songs3().length; i++){
+             trackids.push(self.songs3()[i].trackid);
+             }
+         return trackids;        
+       }
+    });    
 
     self.pauseAll = function(){
       for (i in self.songs1()){
@@ -124,8 +147,9 @@ $(document).ready(function() {
     options = ['option1','option2','option3']
     for (var option in options){ // loop through each of the 3 mood options
       for (k in validated_influencers[options[option]].tracks){ // loop through the validated songs for that mood
-        track = user_track_data[validated_influencers[options[option]].tracks[k].id] // get stored track info
-        IVM.addSong(track.title,track.artist,track.coverart,options[option],track.previewURL); // add to knockout view
+        trackid = validated_influencers[options[option]].tracks[k].id
+        track = user_track_data[trackid] // get stored track info
+        IVM.addSong(trackid,track.title,track.artist,track.coverart,options[option],track.previewURL); // add to knockout view
       }
     }
       
@@ -172,6 +196,8 @@ $(document).ready(function() {
                   }
                 }              
               }
+              console.log(Object.keys(user_track_data).length)
+              console.log('tracks')
               callback(null);
           }],
           validate_songs: ['reduce_songs', function(callback, results){          
@@ -180,7 +206,7 @@ $(document).ready(function() {
               })
           }]
       }, function(err, results) {
-          console.log('err = ', err);
+          // console.log('err = ', err);
           loadInfluencers();
       });
 
@@ -194,7 +220,8 @@ $(document).ready(function() {
 
     $('#go-to-playlist').click(function() {
       console.log("go to");
-      window.location.href = '/playlist#access_token=' + access_token + "&refresh_token=" + refresh_token + "&pl=" + playlist_option;
+      console.log(IVM.moodOption())
+      window.location.href = '/playlist?access_token=' + access_token + "&refresh_token=" + refresh_token + "&pl=" + playlist_type + "&playlist_option=" + IVM.moodOption() + "&trackids=" + IVM.influencers().join();
     })
     // onclick handler for build-playlist button
     $('build-playlist').click(function() {
