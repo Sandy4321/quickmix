@@ -177,12 +177,14 @@ Influence section
 .song-info .song-container {
   max-width: 620px;
   margin-bottom: 20px;
+  display: flex;
+  width: 100%;
 }
 .song-info .song-container .coverart {
-  display: inline-block;
   background-size: cover;
   height: 100px;
   width: 100px;
+  min-width: 100px;
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
   border: solid 2px;

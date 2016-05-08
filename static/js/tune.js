@@ -40,20 +40,29 @@ function InfluencersViewModel() {
        var trackids = [];
        if (self.moodOption() == 'option1') {
          for (var i = 0; i < self.songs1().length; i++){
+            if (self.songs1()[i].includeInfluencer()) {
              trackids.push(self.songs1()[i].trackid);
-             }
+              
+            }
+          }
          return trackids;        
        }
        else if (self.moodOption() == 'option2') {
          for (var i = 0; i < self.songs2().length; i++){
+            if (self.songs2()[i].includeInfluencer()) {
              trackids.push(self.songs2()[i].trackid);
-             }
+              
+            }
+          }
          return trackids;        
        }       
        else if (self.moodOption() == 'option3') {
          for (var i = 0; i < self.songs3().length; i++){
+            if (self.songs3()[i].includeInfluencer()) {
              trackids.push(self.songs3()[i].trackid);
-             }
+              
+            }
+          }
          return trackids;        
        }
     });    
@@ -169,7 +178,7 @@ $(document).ready(function() {
   } else {
     if (access_token) {
 
-      /// Call Spotify api in parallel for top songs; reduce, validate, and load songs on frontend
+      /// Call Spotify api in parallel for top songs; reduce, validate, and load songs in view
       async.auto({
           short_term: function(callback){
               getInfluencers('short_term',function(results){
@@ -196,8 +205,6 @@ $(document).ready(function() {
                   }
                 }              
               }
-              console.log(Object.keys(user_track_data).length)
-              console.log('tracks')
               callback(null);
           }],
           validate_songs: ['reduce_songs', function(callback, results){          
