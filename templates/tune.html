@@ -48,18 +48,29 @@
         <div class="col-sm-offset-1 col-sm-8 col-md-offset-1 col-md-8 col-xs-12">
           <div class="song-info-loading"><img src="../static/img/spinner-{{type}}.gif" width="60" height="60"/></div>
           <div class="influencers hidden">
-            <div class="song-info">
+            <div class="song-info {{ type }}">
 
               <div data-bind="visible: moodOption() == 'option1'">
                 <div data-bind="foreach: songs1">
                   <div class= "song-container">
-                    <div class="coverart" data-bind="style: { backgroundImage: 'url(\'' + coverart + '\')' }">
-                      <input class="hidden" type="checkbox" data-bind="checked: includeInfluencer,attr: { id: trackid}" />
-                      <label class="track-checkbox" data-bind="attr: { for: trackid}"></label>
+                    <input class="hidden" type="checkbox" data-bind="checked: includeInfluencer,attr: { id: trackid}" />
+                    <label class="track-checkbox" data-bind="attr: { for: trackid}">
+                      <div class = "inner-circle-checked" data-bind="visible: includeInfluencer">
+                        <img src="{{ url_for('static', filename='img/checkmark.png')}}">
+                      </div>
+                      <div class="inner-circle-unchecked" data-bind="visible: !includeInfluencer()"></div>
+                    </label>                    
+                    <div class="coverart" data-bind="click: $root.checkboxClicked,style: { backgroundImage: 'url(\'' + coverart + '\')' }">
+                      <div class="inactive-overlay" data-bind="visible: !includeInfluencer()"></div>
                     </div>
-                    <div class='divider'>&nbsp;</div>
-                    <div class="song-text"><h6 data-bind="text: title"></h6><h5 data-bind="text: artist"></h5></div>
-                    <div class="preview"><button data-bind="click: $root.playSong">Play Preview</button></div>
+                    <div class="song-preview-area">
+                      <div class="inactive-overlay" data-bind="visible: !includeInfluencer()"></div>
+                      <div class="song-text">
+                        <h6 data-bind="text: title,css: { stricken: !includeInfluencer()}"></h6>
+                        <h5 data-bind="text: artist,css: { stricken: !includeInfluencer()}"></h5>
+                      </div>
+                      <div class="preview"><button data-bind="click: $root.playSong">Play Preview</button></div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -67,13 +78,24 @@
               <div data-bind="visible: moodOption() == 'option2'">
                 <div data-bind="foreach: songs2">
                   <div class= "song-container">
-                    <div class="coverart" data-bind="style: { backgroundImage: 'url(\'' + coverart + '\')' }">
-                      <input class="hidden" type="checkbox" data-bind="checked: includeInfluencer,attr: { id: trackid}" />
-                      <label class="track-checkbox" data-bind="attr: { for: trackid}"></label>
+                    <input class="hidden" type="checkbox" data-bind="checked: includeInfluencer,attr: { id: trackid}" />
+                    <label class="track-checkbox" data-bind="attr: { for: trackid}">
+                      <div class = "inner-circle-checked" data-bind="visible: includeInfluencer">
+                        <img src="{{ url_for('static', filename='img/checkmark.png')}}">
+                      </div>
+                      <div class="inner-circle-unchecked" data-bind="visible: !includeInfluencer()"></div>
+                    </label>                    
+                    <div class="coverart" data-bind="click: $root.checkboxClicked,style: { backgroundImage: 'url(\'' + coverart + '\')' }">
+                      <div class="inactive-overlay" data-bind="visible: !includeInfluencer()"></div>
                     </div>
-                    <div class='divider'>&nbsp;</div>
-                    <div class="song-text"><h6 data-bind="text: title"></h6><h5 data-bind="text: artist"></h5></div>
-                    <div class="preview"><button data-bind="click: $root.playSong">Play Preview</button></div>
+                    <div class="song-preview-area">
+                      <div class="inactive-overlay" data-bind="visible: !includeInfluencer()"></div>
+                      <div class="song-text">
+                        <h6 data-bind="text: title,css: { stricken: !includeInfluencer()}"></h6>
+                        <h5 data-bind="text: artist,css: { stricken: !includeInfluencer()}"></h5>
+                      </div>
+                      <div class="preview"><button data-bind="click: $root.playSong">Play Preview</button></div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -81,13 +103,24 @@
               <div data-bind="visible: moodOption() == 'option3'">
                 <div data-bind="foreach: songs3">
                   <div class= "song-container">
-                    <div class="coverart" data-bind="style: { backgroundImage: 'url(\'' + coverart + '\')' }">
-                      <input class="hidden" type="checkbox" data-bind="checked: includeInfluencer,attr: { id: trackid}" />
-                      <label class="track-checkbox" data-bind="attr: { for: trackid}"></label>
+                    <input class="hidden" type="checkbox" data-bind="checked: includeInfluencer,attr: { id: trackid}" />
+                    <label class="track-checkbox" data-bind="attr: { for: trackid}">
+                      <div class = "inner-circle-checked" data-bind="visible: includeInfluencer">
+                        <img src="{{ url_for('static', filename='img/checkmark.png')}}">
+                      </div>
+                      <div class="inner-circle-unchecked" data-bind="visible: !includeInfluencer()"></div>
+                    </label>                    
+                    <div class="coverart" data-bind="click: $root.checkboxClicked,style: { backgroundImage: 'url(\'' + coverart + '\')' }">
+                      <div class="inactive-overlay" data-bind="visible: !includeInfluencer()"></div>
                     </div>
-                    <div class='divider'>&nbsp;</div>
-                    <div class="song-text"><h6 data-bind="text: title"></h6><h5 data-bind="text: artist"></h5></div>
-                    <div class="preview"><button data-bind="click: $root.playSong">Play Preview</button></div>
+                    <div class="song-preview-area">
+                      <div class="inactive-overlay" data-bind="visible: !includeInfluencer()"></div>
+                      <div class="song-text">
+                        <h6 data-bind="text: title,css: { stricken: !includeInfluencer()}"></h6>
+                        <h5 data-bind="text: artist,css: { stricken: !includeInfluencer()}"></h5>
+                      </div>
+                      <div class="preview"><button data-bind="click: $root.playSong">Play Preview</button></div>
+                    </div>
                   </div>
                 </div>
               </div>

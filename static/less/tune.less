@@ -183,8 +183,53 @@ body.tune-hangout div:not(#foo) > input[type='radio']:checked + label {
 /*
 Influence section
 */
+.song-info.chill {
+	label.track-checkbox {
+		.inner-circle-checked{
+			background-color: @chill-light;
+		}
+		.inner-circle-unchecked{
+			border-color: @chill-light;
+		}
+	}
+}
+.song-info.hangout {
+	label.track-checkbox {
+		.inner-circle-checked{
+			background-color: @hangout-light;
+		}
+		.inner-circle-unchecked{
+			border-color: @hangout-light;
+		}
+	}
+}
+
+.song-info.workout {
+	label.track-checkbox {
+		.inner-circle-checked{
+			background-color: @workout-light;
+		}
+		.inner-circle-unchecked{
+			border-color: @workout-light;
+		}
+	}
+}
+
+.song-info.party {
+	label.track-checkbox {
+		.inner-circle-checked{
+			background-color: @party-light;
+		}
+		.inner-circle-unchecked{
+			border-color: @party-light;
+		}
+	}
+}
 
 .song-info {
+	&:hover{
+		cursor: pointer;
+	}
 	.mood-font;
 	table {
 		table-layout: fixed;
@@ -196,6 +241,47 @@ Influence section
 		margin-bottom: 20px;
 		display: flex;
 		width: 100%;
+		.inactive-overlay{
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: 1;
+			background-color: rgba(131, 137, 147, 0.3);
+		}
+		label.track-checkbox {
+			z-index: 2;
+			margin: 15px;
+			height: 36px;
+			width: 36px;
+			border-radius: 50%;
+			background-color: white;
+			position: absolute;
+			&:hover{
+				cursor: pointer;
+			}
+			.inner-circle-checked{
+				height: 30px;
+				width: 30px;
+				border-radius: 50%;
+				margin: 3px;
+				img{
+					width: 15px;
+					height: 12px;
+					margin: 10px 7px;
+				}					
+			}
+			.inner-circle-unchecked{
+				border: 2px solid;
+				background-color: white;
+				height: 30px;
+				width: 30px;
+				margin: 3px;
+				border-radius: 50%;
+			}
+
+		}		
 		.coverart{
 			background-size: cover;
 			height: 100px;
@@ -205,15 +291,20 @@ Influence section
 			border-bottom-left-radius: 4px;
 			border: solid 2px;
 			border-right: none;
-			input {
-				margin: 15px;
-			}
+			position: relative;
+
 		}
 		.divider{
 			max-width: 2px;
 			background-color: @gray-dark;
 			border-top: solid 2px;
 			border-bottom: solid 2px;
+		}
+		.song-preview-area{
+			display: flex;
+			width:100%;
+			max-width: 620px;
+			position: relative;
 		}
 		.song-text{
 			width: 100%;
@@ -228,7 +319,10 @@ Influence section
 			}
 			h6{
 				font-weight: 400;
-			}			
+			}
+			.stricken{
+				text-decoration: line-through;
+			}
 
 		}
 		.preview{
@@ -246,9 +340,6 @@ Influence section
 				padding: 0;			
 			}
 		}
-	}
-	.spacer{
-		height: 20px;
 	}
 }
 

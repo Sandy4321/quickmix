@@ -80,16 +80,25 @@ function InfluencersViewModel() {
     }
 
     self.playSong = function(song) {
-
-        if (song.preview.paused) {
-          self.pauseAll();
-          song.preview.play();
-        }
-        else{
-          self.pauseAll();
-        }
-
+      if (song.preview.paused) {
+        self.pauseAll();
+        song.preview.play();
+      }
+      else{
+        self.pauseAll();
+      }
     }
+
+    self.checkboxClicked = function(song) {
+      console.log(song.includeInfluencer())
+      if (song.includeInfluencer()) {
+        song.includeInfluencer(false);
+      }
+      else{
+        song.includeInfluencer(true);
+      }
+      console.log(song.includeInfluencer())
+    }  
 }
 
 IVM = new InfluencersViewModel();
