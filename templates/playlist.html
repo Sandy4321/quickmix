@@ -2,26 +2,76 @@
 <html>
   <head>
     <title>Your Playlist</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/css/styles.css">
+    <link href='https://fonts.googleapis.com/css?family=PT+Serif:400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="../static/css/playlist.css">
   </head>
-  <body class="playlist">
-  	<div class="container">
-  		<div id="loading-playlist" class="row hidden">
-  			BUILDING YOU A PLAYLIST...
-  		</div>
-  		<button class="btn btn-default hidden" id="export-playlist">Export to Spotify.</button>
-  		<div id="exporting-complete" class="row hidden">EXPORTED!</div>
-  		<div id="playlist-tracks" class="hidden">
-  			<div class="header row">
-  				<div class="col-xs-4">SONG</div>
-  				<div class="col-xs-4">ARTIST</div>
-  				<div class="col-xs-4">ALBUM</div>
-  			</div>
-  		</div>
-  	</div>
+
+  <body class="tune tune-{{type}}">
+
+    <!-- The overlay -->
+    <div id="spotifyOverlay" class="overlay">
+
+      <!-- Overlay content -->
+      <div class="overlay-content">
+        <img class="spotify-logo" src="{{ url_for('static', filename='img/Spotify_Icon_RGB_Green.png')}}">
+        <h1>Building your playlist…</h1>
+      </div>
+
+    </div>
+
+    <div class="hat">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12">
+            <h1 class="pl-title">Here’s your playlist</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row options">
+        <div class="col-xs-6">
+          <div class="playlist-desc">
+            <h3>Your {{type}} playlist has 26 songs and is 1 hour and 28 minutes long.</h3>
+          </div>
+        </div>
+        <div class="col-xs-6 export-header">
+          <button class="export-button">Add Playlist to Spotify</button>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs=12">
+          <div class="song-info-loading"><img src="../static/img/spinner-{{type}}.gif" width="60" height="60"/></div>
+          <div class="influencers hidden">
+            <div class="song-info {{ type }}">
+
+              <div data-bind="foreach: songs">
+                <div class= "song-container">
+                  </label>                    
+                  <div class="coverart" data-bind="style: { backgroundImage: 'url(\'' + coverart + '\')' }">
+                  </div>
+                  <div class="song-preview-area">
+                    <div class="song-text">
+                      <h6 data-bind="text: title"></h6>
+                      <h5 data-bind="text: artist"></h5>
+                    </div>
+                    <div class="preview"><button data-bind="click: $root.playSong">Play Preview</button></div>
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
 
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
     <script src="../static/js/playlist.js"></script>
   </body>
 </html>

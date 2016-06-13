@@ -239,20 +239,6 @@ $(document).ready(function() {
       console.log(IVM.moodOption())
       window.location.href = '/playlist?access_token=' + access_token + "&refresh_token=" + refresh_token + "&pl=" + playlist_type + "&playlist_option=" + IVM.moodOption() + "&trackids=" + IVM.influencers().join();
     })
-    // onclick handler for build-playlist button
-    $('build-playlist').click(function() {
-      data = {'tracks':user_tracks}
-      $.ajax({
-          type : "POST",
-          url : "/api/build",
-          data: JSON.stringify(data, null, '\t'),
-          contentType: 'application/json;charset=UTF-8',
-          success: function(result) {
-              $('#loading-playlist').removeClass('hidden');
-              buildPlaylist(result);
-          }
-      });
-    });
 
   }
 

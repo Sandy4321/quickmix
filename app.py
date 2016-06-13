@@ -14,7 +14,7 @@ def generateRandomString(N):
 	possible = string.ascii_uppercase + string.digits + string.ascii_lowercase
 	return ''.join(random.SystemRandom().choice(possible) for _ in range(N))
 
-track_model = gensim.models.Word2Vec.load('static/w2v/model.w2v')
+track_model = gensim.models.Word2Vec.load('static/w2v/model_001.w2v')
 category_map = {'chill':['sleep','relax','focus'],'party':['pregame','dance','late_night'],'workout':['warm_up','gym','cardio'],'hangout':['dinner','feel_good','bbq']}
 
 def categorizeTracks(tracks,category,ntracks=5):
@@ -66,23 +66,19 @@ def sampleTracks(tracks,n):
 			break
 	return output
 
-def buildPlaylist(tracks,activity='run',n_songs=15,n_influencers=5,validate=True):
-	running_sample_size = 15
+def buildPlaylist(tracks,activity='relax',n_songs=15,top_n_size=20):
 	plist = []
-	if validate:
-		tracks = validateTracks(tracks)
-
-
-	tracksSampled = sampleTracks(tracks,n_influencers)
-
-	n_influencers = len(tracksSampled) ## must be as many tracks as influencers
-
+	n_influencers = len(tracks)
 	tracks_per_track = int(math.ceil(1.*n_songs/n_influencers)) ## number of tracks to pull per influencer
 
-	for track in tracksSampled:
-		results = [{'id':w[0][2:],'score':w[1],'influencer':track} for w in track_model.most_similar(positive=[activity,'T_'+track],topn=100) if (re.match('T_',w[0]))]
-		plist.extend(random.sample(results[:running_sample_size],tracks_per_track))
-	output = {'playlist':plist[:n_songs],'influencers':tracksSampled}
+	for track in tracks:
+		# print track
+		sys.stdout.flush()
+		results = [{'id':w[0][2:],'score':w[1],'influencer':track} for w in track_model.most_similar(positive=['T_'+track],topn=100) if (re.match('T_',w[0]))]
+		# print results
+		plist.extend(random.sample(results[:max(tracks_per_track,top_n_size)],tracks_per_track))
+	output = {'playlist':plist[:n_songs],'influencers':tracks}
+	sys.stdout.flush()
 	return output
 
 
@@ -117,7 +113,8 @@ def tune():
 
 @app.route('/playlist')
 def pl():
-	return render_template('playlist.html')
+	pl_type = request.args.get('pl')
+	return render_template('playlist.html', type=pl_type)
 
 @app.route('/login',methods=['GET','POST'])
 def login():
@@ -168,8 +165,13 @@ def callback():
 @app.route('/api/build',methods=['POST'])
 def build():
 	tracks = request.json['tracks']
+	print tracks
+	sys.stdout.flush()
+	playlist_option = int(request.json['playlist_option'][-1])-1
+	pl = request.json['pl']
+	activity = category_map[pl][playlist_option]
 	t = time.time()
-	data = buildPlaylist(tracks,validate=True)
+	data = buildPlaylist(tracks,activity)
 	print time.time()-t
 	sys.stdout.flush()
 
