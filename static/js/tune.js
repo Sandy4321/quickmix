@@ -7,6 +7,7 @@ function Song(trackid, title, artist, coverart, previewURL) {
     self.artist = artist;
     self.coverart = coverart
     self.includeInfluencer = ko.observable(true)
+    self.isPlaying = ko.observable(false);
     self.preview = new Audio(previewURL);
 }
 
@@ -70,12 +71,15 @@ function InfluencersViewModel() {
     self.pauseAll = function(){
       for (i in self.songs1()){
         self.songs1()[i].preview.pause();
+        self.songs1()[i].isPlaying(false);
       }
       for (i in self.songs2()){
         self.songs2()[i].preview.pause();
+        self.songs2()[i].isPlaying(false);
       }
       for (i in self.songs3()){
         self.songs3()[i].preview.pause();
+        self.songs3()[i].isPlaying(false);
       } 
     }
 
@@ -83,6 +87,7 @@ function InfluencersViewModel() {
       if (song.preview.paused) {
         self.pauseAll();
         song.preview.play();
+        song.isPlaying(true);
       }
       else{
         self.pauseAll();
@@ -90,14 +95,12 @@ function InfluencersViewModel() {
     }
 
     self.checkboxClicked = function(song) {
-      console.log(song.includeInfluencer())
       if (song.includeInfluencer()) {
         song.includeInfluencer(false);
       }
       else{
         song.includeInfluencer(true);
       }
-      console.log(song.includeInfluencer())
     }  
 }
 

@@ -14,7 +14,7 @@ def generateRandomString(N):
 	possible = string.ascii_uppercase + string.digits + string.ascii_lowercase
 	return ''.join(random.SystemRandom().choice(possible) for _ in range(N))
 
-track_model = gensim.models.Word2Vec.load('static/w2v/model_name_inject.w2v')
+track_model = gensim.models.Word2Vec.load('static/w2v/model_001t.w2v')
 category_map = {'chill':['sleep','relax','focus'],'party':['pregame','dance','late_night'],'workout':['warm_up','gym','cardio'],'hangout':['dinner','feel_good','bbq']}
 
 def categorizeTracks(tracks,category,ntracks=5):
@@ -66,17 +66,24 @@ def sampleTracks(tracks,n):
 			break
 	return output
 
-def buildPlaylist(tracks,activity='relax',n_songs=15,top_n_size=20):
+def buildPlaylist(tracks,activity='relax',n_songs=15,top_n_size=15,n_similar_tracks=80):
 	plist = []
 	n_influencers = len(tracks)
 	tracks_per_track = int(math.ceil(1.*n_songs/n_influencers)) ## number of tracks to pull per influencer
 
 	for track in tracks:
-		# print track
-		sys.stdout.flush()
-		results = [{'id':w[0][2:],'score':w[1],'influencer':track} for w in track_model.most_similar(positive=['T_'+track],topn=100) if (re.match('T_',w[0]))]
-		# print results
-		plist.extend(random.sample(results[:max(tracks_per_track,top_n_size)],tracks_per_track))
+
+		### Choose top 100 songs closes to track
+		results = [{'id':w[0][2:],'song_score':w[1],'influencer':track,'activity_score':track_model.similarity(activity, w[0])} for w in track_model.most_similar(positive=['T_'+track],topn=n_similar_tracks) if (re.match('T_',w[0]))]
+		
+		### Order songs by distance to activity and return top_n_size
+		sorted_results = sorted(results, key=itemgetter('activity_score'), reverse=True)
+		print [x['activity_score'] for x in sorted_results]
+		print '*'*30
+		### Add random selection of tracks_per_track songs to playlist
+		plist.extend(random.sample(sorted_results[:max(tracks_per_track,top_n_size)],tracks_per_track))
+
+
 	output = {'playlist':plist[:n_songs],'influencers':tracks}
 	sys.stdout.flush()
 	return output
