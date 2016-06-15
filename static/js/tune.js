@@ -177,6 +177,10 @@ $(document).ready(function() {
       
   }
 
+  function sendToPlaylist(){
+    window.location.href = '/playlist?access_token=' + access_token + "&refresh_token=" + refresh_token + "&pl=" + playlist_type + "&playlist_option=" + IVM.moodOption() + "&trackids=" + IVM.influencers().join() + "&playlist_length=" + IVM.lengthOption();
+  }
+
   var user_tracks = [];
   var user_track_data = {};
   var validated_influencers;
@@ -238,11 +242,14 @@ $(document).ready(function() {
         alert("You need an access token to view this page.");
     }
 
-    $('#go-to-playlist').click(function() {
-      console.log("go to");
-      console.log(IVM.moodOption())
-      window.location.href = '/playlist?access_token=' + access_token + "&refresh_token=" + refresh_token + "&pl=" + playlist_type + "&playlist_option=" + IVM.moodOption() + "&trackids=" + IVM.influencers().join() + "&playlist_length=" + IVM.lengthOption();
-    })
+    $('#go-to-playlist').click(function(e){
+        e.preventDefault();
+        sendToPlaylist();
+      });
+    $('#makeplaylist').click(function(e){
+        e.preventDefault();
+        sendToPlaylist();
+      });
 
   }
 

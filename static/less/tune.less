@@ -438,7 +438,11 @@ Media Queries
 @media only screen and (min-width:600px) {
 
 	.options {
-		padding: 18px 0px 12px 0px;
+		padding: 40px 0px 50px 0px;
+	}
+
+	.row.moods{
+		padding: 33px 0;
 	}
 
 	.radio-inline+.radio-inline {
@@ -478,11 +482,28 @@ Media Queries
 		display: inline-block;
 	}
 
+	.instructions-line2{
+			margin-top: 30px;
+	}
+}
+
+@media only screen and (min-width:768px) {
+	h3 {
+		margin-bottom: 0px;
+	}
 }
 
 @media only screen and (min-width:992px) {
 	.options {
 		padding: 44px 0px 44px 0px;
+	}
+	.row.submit{
+		padding: 108px 0 32px 0;
+	}
+	.submit-button{
+		height: 67px;
+		width: 335px;
+		font-size: 25px;
 	}
 	h3 {
 		.heading-font;
