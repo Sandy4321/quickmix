@@ -22,6 +22,7 @@ function InfluencersViewModel() {
 
     self.moodSpectrum = ko.observable(true)
     self.moodOption = ko.observable("option2")
+    self.lengthOption = ko.observable("length60")
 
     
     // Operations
@@ -240,7 +241,7 @@ $(document).ready(function() {
     $('#go-to-playlist').click(function() {
       console.log("go to");
       console.log(IVM.moodOption())
-      window.location.href = '/playlist?access_token=' + access_token + "&refresh_token=" + refresh_token + "&pl=" + playlist_type + "&playlist_option=" + IVM.moodOption() + "&trackids=" + IVM.influencers().join();
+      window.location.href = '/playlist?access_token=' + access_token + "&refresh_token=" + refresh_token + "&pl=" + playlist_type + "&playlist_option=" + IVM.moodOption() + "&trackids=" + IVM.influencers().join() + "&playlist_length=" + IVM.lengthOption();
     })
 
   }

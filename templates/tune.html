@@ -4,8 +4,10 @@
     <title>Tune</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/css/styles.css">
+    <!-- <link rel="stylesheet" href="../static/css/styles.css"> -->
     <link rel="stylesheet" href="../static/css/tune.css">
+    <link href='https://fonts.googleapis.com/css?family=PT+Serif:400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,900' rel='stylesheet' type='text/css'>
   </head>
   <body class="tune tune-{{type}}">
     <div class="hat">
@@ -21,7 +23,7 @@
     <div class="container">
       <div class="row options">
         <div class="col-xs-12 col-sm-3 col-md-3">
-          <h3>What kind of <i>{{ type }}</i> are you looking for?</h3>
+          <h3 class="radio-question">What kind of <i>{{ type }}</i> are you looking for?</h3>
         </div>
         <div class="col-sm-offset-1 col-sm-8 col-md-offset-1 col-md-8 col-xs-12">
           <div class="radio-input">
@@ -64,7 +66,7 @@
                     <div class="coverart" data-bind="click: $root.checkboxClicked,style: { backgroundImage: 'url(\'' + coverart + '\')' }">
                       <div class="inactive-overlay" data-bind="visible: !includeInfluencer()"></div>
                     </div>
-                    <div class="song-preview-area">
+                    <div class="song-preview-area" data-bind="click: $root.playSong">
                       <div class="inactive-overlay" data-bind="visible: !includeInfluencer()"></div>
                       <div class="song-text">
                         <h6 data-bind="text: title,css: { stricken: !includeInfluencer()}"></h6>
@@ -89,13 +91,25 @@
                     <div class="coverart" data-bind="click: $root.checkboxClicked,style: { backgroundImage: 'url(\'' + coverart + '\')' }">
                       <div class="inactive-overlay" data-bind="visible: !includeInfluencer()"></div>
                     </div>
-                    <div class="song-preview-area">
+                    <div class="song-preview-area" data-bind="click: $root.playSong">
                       <div class="inactive-overlay" data-bind="visible: !includeInfluencer()"></div>
-                      <div class="song-text">
-                        <h6 data-bind="text: title,css: { stricken: !includeInfluencer()}"></h6>
-                        <h5 data-bind="text: artist,css: { stricken: !includeInfluencer()}"></h5>
-                        <div class="preview" data-bind="css: { {{ type }}: isPlaying()}"><div class='arrow-right' data-bind="css: { {{ type }}: isPlaying()}"></div>Play Preview</div>
-                      </div>
+                      <table class="song-text">
+                        <tr>
+                          <td>
+                            <h6 data-bind="text: title,css: { stricken: !includeInfluencer()}"></h6>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <h5 data-bind="text: artist,css: { stricken: !includeInfluencer()}"></h5>
+                          </tr>
+                        </td>
+                        <tr>
+                          <td>
+                            <div class="preview" data-bind="css: { {{ type }}: isPlaying()}"><div class='arrow-right' data-bind="css: { {{ type }}: isPlaying()}"></div>Play Preview</div>
+                          </tr>
+                        </td>
+                      </table>
                     </div>
                   </div>
                 </div>
@@ -131,10 +145,48 @@
         </div>
       </div>
 
-      <div id="loggedin">
-        <div id="user-profile">
+      <hr/>
+      <div class="row options">
+        <div class="col-xs-12 col-sm-3 col-md-3">
+          <h3 class="radio-question">How long should the playlist be?</h3>
         </div>
-        <button class="btn btn-default" id="go-to-playlist">Make my playlist</button>
+        <div class="col-sm-offset-1 col-sm-8 col-md-offset-1 col-md-8 col-xs-12">
+          <div class="radio-input">
+            <div class="radio-inline">
+                <input type="radio" name="playlistLength" id="optionsLength30" value="length30" data-bind="checked: lengthOption">
+                <label for="optionsLength30">30 mins</label>
+            </div>
+            <div class="radio-inline">
+                <input type="radio" name="playlistLength" id="optionsLength60" value="length60" data-bind="checked: lengthOption">
+                <label for="optionsLength60">60 mins</label>
+            </div>
+            <div class="radio-inline">
+                <input type="radio" name="playlistLength" id="optionsLength90" value="length90" data-bind="checked: lengthOption">
+                <label for="optionsLength90">90 mins</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr/>
+
+
+      <div class="row submit">
+        <div class="col-xs-12">
+          <div class="button-wrapper">
+            <button class="btn btn-default submit-button {{ type }}" id="go-to-playlist">Make my playlist</button>
+          </div>
+        </div>
+      </div>
+
+      <hr/>
+
+      <div class="row footer">
+        <div class="col-xs-12">
+          <div class="footer-text text-right">
+            Song previews provided by Spotify
+            <img height="24px" width="24px" class="spotify-logo" src="{{ url_for('static', filename='img/Spotify_Icon_RGB_Green.png')}}">
+          </div>
+        </div>
       </div>
 
     </div>

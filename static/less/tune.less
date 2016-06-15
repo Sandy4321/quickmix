@@ -6,12 +6,12 @@
 h1, h2, h3, h4, h5, h6 {
 	font-weight: 700;
 	text-rendering: optimizeLegibility;
-	-webkit-font-smoothing: antialiased;
 }
 
 body {
 	.body-font;
 	background-color: #fff;
+	-webkit-font-smoothing: antialiased;
 }
 
 body.tune-chill {
@@ -74,7 +74,7 @@ h3 {
 
 hr {
 	border-color: #CACCD1;
-	margin-bottom: 0px;
+	margin: 0px;
 }
 
 .underline-link {
@@ -131,7 +131,7 @@ div:not(#foo) > input[type='radio'] {
     opacity: 0;
     float: left;
     width: 18px;
-		display: inline;
+	display: none;
 }
 
 div:not(#foo) > input[type='radio'] + label {
@@ -179,6 +179,10 @@ body.tune-hangout div:not(#foo) > input[type='radio']:checked + label {
 
 .radio-inline {
 	display: block;
+}
+
+.options {
+	padding: 28px 0px;
 }
 
 
@@ -308,9 +312,15 @@ Influence section
 			padding: 9px 16px;
 			vertical-align: top;
 			border-bottom: solid 1px @gray-light;
+			table-layout: fixed;
+			height: 100px;
+
 			h5, h6{
 				margin: 0 0 1px 0;
 				color: @gray-dark;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				overflow: hidden;
 			}
 			h6{
 				font-weight: 400;
@@ -349,7 +359,75 @@ Influence section
 		.preview.chill{
 			color: @chill-light;
 		}
+		.arrow-right.party{
+			border-left: 7px solid @party-light;
+		}
+		.preview.party{
+			color: @party-light;
+		}
+		.arrow-right.workout{
+			border-left: 7px solid @workout-light;
+		}
+		.preview.workout{
+			color: @workout-light;
+		}
+		.arrow-right.hangout{
+			border-left: 7px solid @hangout-light;
+		}
+		.preview.hangout{
+			color: @hangout-light;
+		}
 	}
+}
+
+/*
+Submit section
+*/
+.row.submit{
+	padding: 33px 0px;
+}
+
+.submit-button{
+	height: 50px;
+	width: 209px;
+	font-size: 20px;
+	font-weight: 500;
+	border-radius: 6px;
+	border: none;
+	color: white;
+}
+
+.button-wrapper{
+	text-align: center;
+}
+
+.submit-button.chill{
+	background-color: @chill-light;
+}
+.submit-button.party{
+	background-color: @party-light;
+}
+.submit-button.workout{
+	background-color: @workout-light;
+}
+.submit-button.hangout{
+	background-color: @hangout-light;
+}
+
+.row.footer{
+	padding: 24px 0;
+	.spotify-logo{
+		margin-left: 14px;
+		margin-top: -1px;
+	}
+}
+
+.footer-text{
+	font-size: 12px;
+	color: @gray-dark;
+	font-weight: 500;
+	height: 24px;
+	line-height: 24px;
 }
 
 
@@ -367,7 +445,7 @@ Media Queries
 		margin-left: 20px;
 	}
 	.radio-input {
-		margin-top: 12px;
+		margin-top: 0px;
 	}
 
 	div:not(#foo) > input[type='radio'] + label {
@@ -404,10 +482,15 @@ Media Queries
 
 @media only screen and (min-width:992px) {
 	.options {
-		padding: 42px 0px 20px 0px;
+		padding: 44px 0px 44px 0px;
 	}
 	h3 {
 		.heading-font;
 		font-size: 20px;
+	}
+	h3.radio-question{
+		margin: 0;
+		height: 60px;
+		line-height: 30px;
 	}
 }
