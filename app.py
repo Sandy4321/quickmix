@@ -14,7 +14,7 @@ def generateRandomString(N):
 	possible = string.ascii_uppercase + string.digits + string.ascii_lowercase
 	return ''.join(random.SystemRandom().choice(possible) for _ in range(N))
 
-track_model = gensim.models.Word2Vec.load('static/w2v/model_001a.w2v')
+track_model = gensim.models.Word2Vec.load('static/w2v/model_001bt.w2v')
 category_map = {'chill':['sleep','relax','focus'],'party':['pregame','danceparty','late_night'],'workout':['warm_up','gym','cardio'],'hangout':['dinner','feel_good','bbq']}
 
 def categorizeTracks(tracks,category,ntracks=5):
@@ -88,7 +88,45 @@ def buildPlaylist(tracks,activity='relax',n_songs=15,top_n_size=15,n_similar_tra
 	sys.stdout.flush()
 	return output
 
+def playlistSongs(tracks,activity='relax'):
+	plist = []
+	n_influencers = len(tracks)
 
+	if n_influencers == 0:
+		return 'Error, no influencers!'
+	elif n_influencers == 1:
+		n_similar_tracks = 240
+		top_n_size = 50
+	elif n_influencers == 2:
+		n_similar_tracks = 160
+		top_n_size = 25
+	elif n_influencers == 3:
+		n_similar_tracks = 80
+		top_n_size = 15
+	elif n_influencers == 4:
+		n_similar_tracks = 80
+		top_n_size = 12
+	else:
+		n_similar_tracks = 80
+		top_n_size = 10
+
+
+	for track in tracks:
+
+		### Choose top songs closest to track
+		results = [{'id':w[0][2:],'song_score':w[1],'influencer':track,'activity_score':track_model.similarity(activity, w[0])} for w in track_model.most_similar(positive=['T_'+track],topn=n_similar_tracks) if (re.match('T_',w[0]))]
+		
+		### Order songs by distance to activity and return top_n_size
+		sorted_results = sorted(results, key=itemgetter('activity_score'), reverse=True)
+		# print [x['activity_score'] for x in sorted_results]
+		# print '*'*30
+		### Add random selection of tracks_per_track songs to playlist
+		plist.extend(sorted_results[:top_n_size])
+
+
+	output = {'songs':plist,'influencers':tracks}
+	sys.stdout.flush()
+	return output
 
 
 
@@ -179,6 +217,19 @@ def build():
 	activity = category_map[pl][playlist_option]
 	t = time.time()
 	data = buildPlaylist(tracks,activity)
+	print time.time()-t
+	sys.stdout.flush()
+
+	return jsonify({'status':'ok','data':data})
+
+@app.route('/api/songs',methods=['POST'])
+def playlist_songs():
+	tracks = request.json['tracks']
+	playlist_option = int(request.json['playlist_option'][-1])-1
+	pl = request.json['pl']
+	activity = category_map[pl][playlist_option]
+	t = time.time()
+	data = playlistSongs(tracks,activity)
 	print time.time()-t
 	sys.stdout.flush()
 

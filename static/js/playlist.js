@@ -7,6 +7,7 @@ function Song(trackid, title, artist, coverart, previewURL, uri) {
     self.artist = artist;
     self.coverart = coverart;
     self.preview = new Audio(previewURL);
+    self.isPlaying = ko.observable(false);
     self.uri = uri;
 }
 
@@ -17,9 +18,6 @@ function PlaylistViewModel() {
     // Editable data
     self.songs = ko.observableArray();
 
-    self.moodSpectrum = ko.observable(true)
-    self.moodOption = ko.observable("option2")
-
     
     // Operations
     self.addSong = function(trackid,title,artist,coverart,previewURL,uri) {
@@ -29,6 +27,7 @@ function PlaylistViewModel() {
     self.pauseAll = function(){
       for (i in self.songs()){
         self.songs()[i].preview.pause();
+        self.songs()[i].isPlaying(false);
       }
     }
 
@@ -36,22 +35,12 @@ function PlaylistViewModel() {
       if (song.preview.paused) {
         self.pauseAll();
         song.preview.play();
+        song.isPlaying(true);
       }
       else{
         self.pauseAll();
       }
-    }
-
-    self.checkboxClicked = function(song) {
-      console.log(song.includeInfluencer())
-      if (song.includeInfluencer()) {
-        song.includeInfluencer(false);
-      }
-      else{
-        song.includeInfluencer(true);
-      }
-      console.log(song.includeInfluencer())
-    }  
+    } 
 }
 
 PVM = new PlaylistViewModel();
@@ -68,33 +57,84 @@ function getURLParam(name) {
   return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
 }
 
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
+function secondsToTime(secs)
+{
+    var hours = Math.floor(secs / (60 * 60));
+   
+    var divisor_for_minutes = secs % (60 * 60);
+    var minutes = Math.floor(divisor_for_minutes / 60);
+ 
+    var divisor_for_seconds = divisor_for_minutes % 60;
+    var seconds = Math.ceil(divisor_for_seconds);
+   
+    var obj = {
+        "h": hours,
+        "m": minutes,
+        "s": seconds
+    };
+    return obj;
+}
+
+function selectPlaylistTracks(tracks,length_option){
+  var playlistLength ;
+  var currentLength = 0;
+  var n_tracks = tracks.length;
+
+  if (length_option == 'length30'){
+    playlistLength = 1800000;
+  }
+  else if (length_option == 'length60'){
+    playlistLength = 3600000;
+  }
+  else {
+   playlistLength = 5400000;
+  }
+  shuffle(tracks);
+  selected_tracks = [];
+  i = 0;
+  while (currentLength < playlistLength){
+    selected_tracks.push(tracks[i])
+    currentLength += tracks[i]['duration_ms'];
+    i += 1;
+    if (i == n_tracks) {
+      break;
+    }
+  }
+
+  return selected_tracks;
+}
+
 $(document).ready(function() {
   var user_tracks = getURLParam("trackids");
   var pl = getURLParam("pl");
   var playlist_option = getURLParam("playlist_option");
-  data = {'tracks':user_tracks.split(','),'pl':pl,'playlist_option':playlist_option}
-  console.log(data)
-  $.ajax({
-      type : "POST",
-      url : "/api/build",
-      data: JSON.stringify(data, null, '\t'),
-      contentType: 'application/json;charset=UTF-8',
-      success: function(result) {
-          // $('#loading-playlist').removeClass('hidden');
-          buildPlaylist(result.data.playlist);
-          console.log(result)
-          $('.song-info-loading').hide();
-          $('.influencers').removeClass("hidden");
-          removeOverlay();
-      }
-    });
-
-
+  var length_option = getURLParam("length_option");
   var access_token = getURLParam("access_token");
   var refresh_token = getURLParam("refresh_token");
   var playlist_type = getURLParam("pl");
   var error = getURLParam("error");
   var userid;
+
+
 
   if (error) {
     alert('There was an error during the authentication');
@@ -111,10 +151,23 @@ $(document).ready(function() {
           }
       });
 
+      data = {'tracks':user_tracks.split(','),'pl':pl,'playlist_option':playlist_option}
+      $.ajax({
+          type : "POST",
+          url : "/api/songs",
+          data: JSON.stringify(data, null, '\t'),
+          contentType: 'application/json;charset=UTF-8',
+          success: function(result) {
+              buildPlaylist(result.data.songs);
+              $('.song-info-loading').hide();
+              $('.influencers').removeClass("hidden");
+              removeOverlay();
+          }
+        });
+
     } else {
         // render initial screen
-        $('#login').show();
-        $('#loggedin').hide();
+        console.log('need to go login')
     }
 
     /////////// PLAYLIST
@@ -158,12 +211,10 @@ $(document).ready(function() {
   }
 
   function buildPlaylist(tracks) {
-    console.log('building')
     tracklist = [];
     for (i in tracks) {
       tracklist.push(tracks[i].id)
     }
-
     $.ajax({
         url: 'https://api.spotify.com/v1/tracks',
         data: {'ids':tracklist.join()},
@@ -171,13 +222,21 @@ $(document).ready(function() {
           'Authorization': 'Bearer ' + access_token
         },
         success: function(response) {
-          console.log(response)
-          tracks = response.tracks
+          tracks = selectPlaylistTracks(response.tracks,length_option);
+          playlist_length_ms = 0;
           for (i in tracks) {
-            // console.log(tracks[i].id,tracks[i].title,tracks[i].artist,tracks[i].coverart,tracks[i].previewURL);
-            console.log(tracks[i])
+            playlist_length_ms += tracks[i]['duration_ms'];
             PVM.addSong(tracks[i].id,tracks[i].name,tracks[i].artists[0].name,tracks[i].album.images[1].url,tracks[i].preview_url,tracks[i].uri);
           }
+          playlist_length = secondsToTime(playlist_length_ms/1000);
+          if (playlist_length.h == 0){
+            length_text = playlist_length.m + " minutes"
+          }
+          else {
+            length_text = "1 hour and " + playlist_length.m + " minutes"
+          }
+
+          $("#playlist-meta").text(tracks.length + " songs and is " + length_text);
         }
     });
   }

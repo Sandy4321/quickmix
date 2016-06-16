@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>Your Playlist</title>
+    <title>Your QuickMix Playlist</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     <link href='https://fonts.googleapis.com/css?family=PT+Serif:400,700' rel='stylesheet' type='text/css'>
@@ -35,7 +35,7 @@
       <div class="row options">
         <div class="col-xs-6">
           <div class="playlist-desc">
-            <h3>Your {{type}} playlist has 26 songs and is 1 hour and 28 minutes long.</h3>
+            <h3>Your <i>{{type}}</i> playlist has <div id="playlist-meta">26 songs and is 1 hour and 28 minutes</div> long.</h3>
           </div>
         </div>
         <div class="col-xs-6 export-header">
@@ -43,32 +43,69 @@
         </div>
       </div>
 
-      <div class="row">
+      <div class="row options">
         <div class="col-xs=12">
           <div class="song-info-loading"><img src="../static/img/spinner-{{type}}.gif" width="60" height="60"/></div>
           <div class="influencers hidden">
             <div class="song-info {{ type }}">
 
               <div data-bind="foreach: songs">
-                <div class= "song-container">
-                  </label>                    
+                <div class= "song-container">                  
                   <div class="coverart" data-bind="style: { backgroundImage: 'url(\'' + coverart + '\')' }">
                   </div>
-                  <div class="song-preview-area">
-                    <div class="song-text">
-                      <h6 data-bind="text: title"></h6>
-                      <h5 data-bind="text: artist"></h5>
-                    </div>
-                    <div class="preview"><button data-bind="click: $root.playSong">Play Preview</button></div>
+                  <div class="song-preview-area" data-bind="click: $root.playSong">
+                      <table class="song-text">
+                        <tr>
+                          <td>
+                            <h6 data-bind="text: title"></h6>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <h5 data-bind="text: artist"></h5>
+                          </tr>
+                        </td>
+                        <tr>
+                          <td>
+                            <div class="preview" data-bind="css: { {{ type }}: isPlaying()}"><div class='arrow-right' data-bind="css: { {{ type }}: isPlaying()}"></div>Play Preview</div>
+                          </tr>
+                        </td>
+                      </table>
                   </div>
                 </div>
               </div>
-
 
             </div>
           </div>
         </div>
       </div>
+
+
+      <div class="row submit">
+        <div class="col-xs-12">
+          <div class="button-wrapper">
+            <button class="btn btn-default submit-button {{ type }}" id="go-to-playlist">Add Playlist to Spotify</button>
+            <div class="start-over-wrapper">
+              <a class="start-over link-shadow underline-link .underline-link {{type}}" href="/">Or create a new playlist</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr/>
+
+      <div class="row footer">
+        <div class="col-xs-12">
+          <div class="footer-text text-right">
+            Song previews provided by Spotify
+            <img height="24px" width="24px" class="spotify-logo" src="{{ url_for('static', filename='img/Spotify_Icon_RGB_Green.png')}}">
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
 
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>

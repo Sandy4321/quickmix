@@ -178,7 +178,7 @@ $(document).ready(function() {
   }
 
   function sendToPlaylist(){
-    window.location.href = '/playlist?access_token=' + access_token + "&refresh_token=" + refresh_token + "&pl=" + playlist_type + "&playlist_option=" + IVM.moodOption() + "&trackids=" + IVM.influencers().join() + "&playlist_length=" + IVM.lengthOption();
+    window.location.href = '/playlist?access_token=' + access_token + "&refresh_token=" + refresh_token + "&pl=" + playlist_type + "&playlist_option=" + IVM.moodOption() + "&trackids=" + IVM.influencers().join() + "&length_option=" + IVM.lengthOption();
   }
 
   var user_tracks = [];
