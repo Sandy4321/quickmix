@@ -53,6 +53,10 @@ function removeOverlay(URL) {
   document.getElementById("spotifyOverlay").style.height = "0%";
 }
 
+function addExportOverlay(URL) {
+  document.getElementById("exportOverlay").style.height = "100%";
+}
+
 function getURLParam(name) {
   return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
 }
@@ -133,6 +137,7 @@ $(document).ready(function() {
   var playlist_type = getURLParam("pl");
   var error = getURLParam("error");
   var userid;
+  var category_map = {'chill':{'option1':'Sleep','option2':'Relax','option3':'Focus'},'party':{'option1':'Pre-Game','option2':'Dance Party','option3':'Late Night'},'workout':{'option1':'Warm Up','option2':'Gym','option3':'Cardio'},'hangout':{'option1':'Dinner','option2':'Feel Good','option3':'BBQ'}};
 
 
 
@@ -173,8 +178,9 @@ $(document).ready(function() {
     /////////// PLAYLIST
     // Export playlist
     $('.export-button').click(function() {
+      addExportOverlay();
       data = {
-        "name": "Song you might like for what you are doing.",
+        "name": category_map[pl][playlist_option] + ' QuickMix',
         "public": false
       }
       $.ajax({
@@ -201,8 +207,8 @@ $(document).ready(function() {
             },
             contentType: 'application/json;charset=UTF-8',
             success: function(result) {
-              console.log('exported!');
-              $('#exporting-complete').removeClass('hidden');
+              $('#export-playlist-text').text('Success!');
+              setTimeout( function() { window.location = '/' }, 1000 );
             }
           });
         }

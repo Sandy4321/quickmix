@@ -78,8 +78,8 @@ def buildPlaylist(tracks,activity='relax',n_songs=15,top_n_size=15,n_similar_tra
 		
 		### Order songs by distance to activity and return top_n_size
 		sorted_results = sorted(results, key=itemgetter('activity_score'), reverse=True)
-		print [x['activity_score'] for x in sorted_results]
-		print '*'*30
+		# print [x['activity_score'] for x in sorted_results]
+		# print '*'*30
 		### Add random selection of tracks_per_track songs to playlist
 		plist.extend(random.sample(sorted_results[:max(tracks_per_track,top_n_size)],tracks_per_track))
 
@@ -230,7 +230,7 @@ def playlist_songs():
 	activity = category_map[pl][playlist_option]
 	t = time.time()
 	data = playlistSongs(tracks,activity)
-	print time.time()-t
+	# print time.time()-t
 	sys.stdout.flush()
 
 	return jsonify({'status':'ok','data':data})

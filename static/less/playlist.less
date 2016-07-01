@@ -134,12 +134,12 @@ Header section
 */
 
 .pl-title{
-	height: 150px;
+	height: 134px;
 	margin: 0;
 }
 
 .playlist-desc{
-	max-width: 219px;
+	margin-top: 50px;
 	h3{
 		.heading-font;
 		margin-top: 0px;
@@ -148,8 +148,18 @@ Header section
 	}
 }
 
+.hat {
+	h1 {
+		font-size: 25px;
+		margin-bottom: 0px;
+		font-weight: 900;
+		line-height: 150px;
+	}
+}
+
 .export-header{
-	text-align: right;
+	text-align: center;
+	margin: 40px 0 50px 0;
 }
 
 .export-button{
@@ -158,7 +168,7 @@ Header section
 	font-size: 25px;
 	border-radius: 6px;
 	height: 67px;
-	width: 307px;
+	width: 280px;
 	.mood-font;
 	border: none;
 }
@@ -316,8 +326,7 @@ Playlist songs
 }
 
 /* The Overlay (background) */
-.overlay {   
-    height: 100%;
+.overlay {
     width: 100%;
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
@@ -327,6 +336,14 @@ Playlist songs
     background-color: rgba(7,11,19,.94); /* Black w/opacity */
     overflow-x: hidden; /* Disable horizontal scroll */
     transition: 0.3s;
+}
+
+#spotifyOverlay{
+	height: 100%;
+}
+
+#exportOverlay{
+	height: 0%;
 }
 
 /* Position the content inside the overlay */
@@ -371,7 +388,7 @@ Submit section
 
 .submit-button{
 	height: 50px;
-	width: 209px;
+	width: 229px;
 	font-size: 20px;
 	font-weight: 500;
 	border-radius: 6px;
@@ -442,57 +459,16 @@ Submit section
 Media Queries
 */
 
-@media only screen and (min-width:600px) {
 
-	.options {
-		padding: 40px 0px 50px 0px;
-	}
-
-	.radio-inline+.radio-inline {
-		margin-left: 20px;
-	}
-	.radio-input {
-		margin-top: 12px;
-	}
-
-	div:not(#foo) > input[type='radio'] + label {
-			font-size: 26px;
-	    padding: 12px 0 11px 38px;
-	    background: url('../img/radio-chill.svg') left center no-repeat;
-	}
-
-	.underline-link {
-		background-image: -webkit-linear-gradient(top, transparent 50%, rgba(255,255,255,0.5) 50%);
-		background-image: linear-gradient(to bottom, transparent 50%, rgba(255,255,255,0.5) 50%);
-	}
-	.underline-link:hover {
-		background-image: -webkit-linear-gradient(top, transparent 50%, rgba(255,255,255,1) 50%);
-		background-image: linear-gradient(to bottom, transparent 50%, rgba(255,255,255,1) 50%);
-	}
-
-	.hat {
-		h1 {
-			font-size: 58px;
-			margin-bottom: 0px;
-			font-weight: 900;
-			line-height: 150px;
-		}
-		h2 {
-			margin-bottom: 50px;
-			font-size: 35px;
-		}
-	}
-
-	.radio-inline {
-		display: inline-block;
-	}
-
-}
-
-@media only screen and (min-width:992px) {
+@media only screen and (min-width:768px) {
 	.options {
 		padding: 44px 0px 44px 0px;
 	}
+	.hat {
+		h1 {
+			font-size: 58px;
+		}
+	}	
 	.row.submit{
 		padding: 108px 0 32px 0;
 	}
@@ -510,4 +486,18 @@ Media Queries
 		height: 60px;
 		line-height: 30px;
 	}
+	.playlist-desc{
+		max-width: 219px;	
+		margin: 0;
+	}
+	.export-header{
+		text-align: right;
+		margin: 0;
+	}
+	.pl-title{
+		height: 150px;
+	}
+	.export-button{
+		width: 307px;
+	}	
 }
