@@ -127,6 +127,8 @@ function selectPlaylistTracks(tracks,length_option){
   return selected_tracks;
 }
 
+
+
 $(document).ready(function() {
   var user_tracks = getURLParam("trackids");
   var pl = getURLParam("pl");
@@ -178,7 +180,51 @@ $(document).ready(function() {
     /////////// PLAYLIST
     // Export playlist
     $('.export-button').click(function() {
+      exportToSpotify();
+      ga('send', 'event', 'button', 'click', 'export', 'export-top');
+    });
+
+    $('#export-bottom').click(function() {
+      exportToSpotify();
+      ga('send', 'event', 'button', 'click', 'export', 'export-bottom');
+    });
+
+    function buildPlaylist(tracks) {
+      tracklist = [];
+      for (i in tracks) {
+        tracklist.push(tracks[i].id)
+      }
+      $.ajax({
+          url: 'https://api.spotify.com/v1/tracks',
+          data: {'ids':tracklist.join()},
+          headers: {
+            'Authorization': 'Bearer ' + access_token
+          },
+          success: function(response) {
+            tracks = selectPlaylistTracks(response.tracks,length_option);
+            playlist_length_ms = 0;
+            for (i in tracks) {
+              playlist_length_ms += tracks[i]['duration_ms'];
+              PVM.addSong(tracks[i].id,tracks[i].name,tracks[i].artists[0].name,tracks[i].album.images[1].url,tracks[i].preview_url,tracks[i].uri);
+            }
+            playlist_length = secondsToTime(playlist_length_ms/1000);
+            if (playlist_length.h == 0){
+              length_text = playlist_length.m + " minutes"
+            }
+            else {
+              length_text = "1 hour and " + playlist_length.m + " minutes"
+            }
+
+            $("#playlist-meta").text(tracks.length + " songs and is " + length_text);
+          }
+      });
+    }
+
+    function exportToSpotify(){
       addExportOverlay();
+
+      ga('send', 'event', 'export-data', category_map[pl][playlist_option], length_option, user_tracks.length, {'nonInteraction': 1});
+
       data = {
         "name": category_map[pl][playlist_option] + ' QuickMix',
         "public": false
@@ -213,38 +259,7 @@ $(document).ready(function() {
           });
         }
       });
-    });
-  }
-
-  function buildPlaylist(tracks) {
-    tracklist = [];
-    for (i in tracks) {
-      tracklist.push(tracks[i].id)
-    }
-    $.ajax({
-        url: 'https://api.spotify.com/v1/tracks',
-        data: {'ids':tracklist.join()},
-        headers: {
-          'Authorization': 'Bearer ' + access_token
-        },
-        success: function(response) {
-          tracks = selectPlaylistTracks(response.tracks,length_option);
-          playlist_length_ms = 0;
-          for (i in tracks) {
-            playlist_length_ms += tracks[i]['duration_ms'];
-            PVM.addSong(tracks[i].id,tracks[i].name,tracks[i].artists[0].name,tracks[i].album.images[1].url,tracks[i].preview_url,tracks[i].uri);
-          }
-          playlist_length = secondsToTime(playlist_length_ms/1000);
-          if (playlist_length.h == 0){
-            length_text = playlist_length.m + " minutes"
-          }
-          else {
-            length_text = "1 hour and " + playlist_length.m + " minutes"
-          }
-
-          $("#playlist-meta").text(tracks.length + " songs and is " + length_text);
-        }
-    });
-  }
+    }    
+  }  
 
 });
