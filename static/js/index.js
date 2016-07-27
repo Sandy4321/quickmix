@@ -101,21 +101,6 @@ $(document).ready(function() {
       }
     });
   });
-      //TODO ON BACKEND REFRESH TOKEN
-      // document.getElementById('obtain-new-token').addEventListener('click', function() {
-      //   $.ajax({
-      //     url: '/refresh_token',
-      //     data: {
-      //       'refresh_token': refresh_token
-      //     }
-      //   }).done(function(data) {
-      //     access_token = data.access_token;
-      //     oauthPlaceholder.innerHTML = oauthTemplate({
-      //       access_token: access_token,
-      //       refresh_token: refresh_token
-      //     });
-      //   });
-      // }, false);
   }
 
   /**
@@ -130,36 +115,6 @@ $(document).ready(function() {
        hashParams[e[1]] = decodeURIComponent(e[2]);
     }
     return hashParams;
-  }
-
-  function buildPlaylist(tracks) {
-    var tracklist = [];
-    for (i in tracks.data.playlist) {
-      tracklist.push(tracks.data.playlist[i].id)
-    }
-
-    $.ajax({
-        url: 'https://api.spotify.com/v1/tracks',
-        data: {'ids':tracklist.join()},
-        headers: {
-          'Authorization': 'Bearer ' + access_token
-        },
-        success: function(response) {
-          playlist_tracks = response;
-          $playlisttracks = $('#playlist-tracks')
-          for (i in response.tracks){
-            $playlisttracks.append('<div class="track row">'+
-              '<div class="song col-xs-4">'+response.tracks[i].name+'</div>'+
-              '<div class="artist col-xs-4">'+response.tracks[i].artists[0].name+'</div>'+
-              '<div class="album col-xs-4">'+response.tracks[i].album.name+'</div>'+
-              '</div>')
-          }
-
-          $playlisttracks.removeClass('hidden')
-          $('#loading-playlist').addClass('hidden');
-          $('#export-playlist').removeClass('hidden');
-        }
-    });
   }
 
 });
