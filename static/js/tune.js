@@ -190,9 +190,6 @@ $(document).ready(function() {
   var playlist_type = getURLParam("pl");
   var error = getURLParam("error");
 
-  if (error) {
-    alert('There was an error during the authentication');
-  } else {
     if (access_token) {
 
       /// Call Spotify api in parallel for top songs; reduce, validate, and load songs in view
@@ -239,7 +236,7 @@ $(document).ready(function() {
 
 
     } else {
-        alert("You need an access token to view this page.");
+        shOverlay('/');
     }
 
     $('#go-to-playlist').click(function(e){
@@ -251,9 +248,12 @@ $(document).ready(function() {
         sendToPlaylist();
       });
 
-  }
-
 });
+
+function shOverlay(URL) {
+  document.getElementById("errorOverlay").style.height = "100%";
+  setTimeout( function() { window.location =  URL}, 1200 );
+}
 
 /*
 Parses params from URLS - uses location.search (requires ?var=a&var=b syntax - No hashes)

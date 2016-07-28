@@ -4,7 +4,6 @@
     <title>Tune</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-    <!-- <link rel="stylesheet" href="../static/css/styles.css"> -->
     <link rel="stylesheet" href="../static/css/tune.css">
     <link href='https://fonts.googleapis.com/css?family=PT+Serif:400,700' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,900' rel='stylesheet' type='text/css'>
@@ -20,6 +19,20 @@
     </script>    
   </head>
   <body class="tune tune-{{type}}">
+
+    <!-- The overlay -->
+    <div id="errorOverlay" class="overlay">
+
+      <!-- Overlay content -->
+      <div class="overlay-content">
+        <img class="spotify-logo" src="{{ url_for('static', filename='img/Spotify_Icon_RGB_Green.png')}}">
+        <h1>Something just isn’t quite right…</h1>
+      </div>
+
+    </div>
+
+
+
     <div class="hat">
       <div class="container">
         <div class="row">
