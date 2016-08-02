@@ -188,9 +188,8 @@ $(document).ready(function() {
   var access_token = getURLParam("access_token");
   var refresh_token = getURLParam("refresh_token");
   var playlist_type = getURLParam("pl");
-  var error = getURLParam("error");
 
-    if (access_token) {
+    if (access_token && playlist_type) {
 
       /// Call Spotify api in parallel for top songs; reduce, validate, and load songs in view
       async.auto({

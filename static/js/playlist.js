@@ -136,130 +136,129 @@ $(document).ready(function() {
   var length_option = getURLParam("length_option");
   var access_token = getURLParam("access_token");
   var refresh_token = getURLParam("refresh_token");
-  var playlist_type = getURLParam("pl");
-  var error = getURLParam("error");
   var userid;
   var category_map = {'chill':{'option1':'Sleep','option2':'Relax','option3':'Focus'},'party':{'option1':'Pre-Game','option2':'Dance Party','option3':'Late Night'},'workout':{'option1':'Warm Up','option2':'Gym','option3':'Cardio'},'hangout':{'option1':'Dinner','option2':'Feel Good','option3':'BBQ'}};
 
+  document.getElementById("spotifyOverlayText").innerHTML = "Building your playlist…";
+  if (access_token && pl && length_option && user_tracks && playlist_option) {
 
-
-  if (error) {
-    alert('There was an error during the authentication');
-  } else {
-    if (access_token) {
-
-      $.ajax({
-          url: 'https://api.spotify.com/v1/me/',
-          headers: {
-            'Authorization': 'Bearer ' + access_token
-          },
-          success: function(response) {
-            userid = response.id
-          }
-      });
-
-      data = {'tracks':user_tracks.split(','),'pl':pl,'playlist_option':playlist_option}
-      $.ajax({
-          type : "POST",
-          url : "/api/songs",
-          data: JSON.stringify(data, null, '\t'),
-          contentType: 'application/json;charset=UTF-8',
-          success: function(result) {
-              buildPlaylist(result.data.songs);
-              $('.song-info-loading').hide();
-              $('.influencers').removeClass("hidden");
-              removeOverlay();
-          }
-        });
-
-    } else {
-        // render initial screen
-        console.log('need to go login')
-    }
-
-    /////////// PLAYLIST
-    // Export playlist
-    $('.export-button').click(function() {
-      exportToSpotify();
-      ga('send', 'event', 'button', 'click', 'export', 'export-top');
-    });
-
-    $('#export-bottom').click(function() {
-      exportToSpotify();
-      ga('send', 'event', 'button', 'click', 'export', 'export-bottom');
-    });
-
-    function buildPlaylist(tracks) {
-      tracklist = [];
-      for (i in tracks) {
-        tracklist.push(tracks[i].id)
-      }
-      $.ajax({
-          url: 'https://api.spotify.com/v1/tracks',
-          data: {'ids':tracklist.join()},
-          headers: {
-            'Authorization': 'Bearer ' + access_token
-          },
-          success: function(response) {
-            tracks = selectPlaylistTracks(response.tracks,length_option);
-            playlist_length_ms = 0;
-            for (i in tracks) {
-              playlist_length_ms += tracks[i]['duration_ms'];
-              PVM.addSong(tracks[i].id,tracks[i].name,tracks[i].artists[0].name,tracks[i].album.images[1].url,tracks[i].preview_url,tracks[i].uri);
-            }
-            playlist_length = secondsToTime(playlist_length_ms/1000);
-            if (playlist_length.h == 0){
-              length_text = playlist_length.m + " minutes"
-            }
-            else {
-              length_text = "1 hour and " + playlist_length.m + " minutes"
-            }
-
-            $("#playlist-meta").text(tracks.length + " songs and is " + length_text);
-          }
-      });
-    }
-
-    function exportToSpotify(){
-      addExportOverlay();
-
-      ga('send', 'event', 'export-data', category_map[pl][playlist_option], length_option, user_tracks.length, {'nonInteraction': 1});
-
-      data = {
-        "name": category_map[pl][playlist_option] + ' QuickMix',
-        "public": false
-      }
-      $.ajax({
-        type : "POST",
-        url : "https://api.spotify.com/v1/users/"+userid+"/playlists",
-        data: JSON.stringify(data, null, '\t'),
+    $.ajax({
+        url: 'https://api.spotify.com/v1/me/',
         headers: {
           'Authorization': 'Bearer ' + access_token
         },
+        success: function(response) {
+          userid = response.id
+        }
+    });
+
+    data = {'tracks':user_tracks.split(','),'pl':pl,'playlist_option':playlist_option}
+    $.ajax({
+        type : "POST",
+        url : "/api/songs",
+        data: JSON.stringify(data, null, '\t'),
         contentType: 'application/json;charset=UTF-8',
         success: function(result) {
-          playlist_id = result.id;
-          var tracklist = [];
-          for (i in PVM.songs()){
-            tracklist.push(PVM.songs()[i].uri)
-          }
-          // Populate playlist with tracks
-          $.ajax({
-            type : "POST",
-            url : "https://api.spotify.com/v1/users/"+userid+"/playlists/"+playlist_id+"/tracks?uri",
-            data: JSON.stringify({'uris':tracklist}, null, '\t'),
-            headers: {
-              'Authorization': 'Bearer ' + access_token
-            },
-            contentType: 'application/json;charset=UTF-8',
-            success: function(result) {
-              $('#export-playlist-text').text('Success!');
-              setTimeout( function() { window.location = '/' }, 1000 );
-            }
-          });
+            buildPlaylist(result.data.songs);
+            $('.song-info-loading').hide();
+            $('.influencers').removeClass("hidden");
+            removeOverlay();
         }
       });
-    }    
-  }  
+
+  }
+
+  else {
+    shOverlay('/');
+  }
+
+  /////////// PLAYLIST
+  // Export playlist
+  $('.export-button').click(function() {
+    exportToSpotify();
+    ga('send', 'event', 'button', 'click', 'export', 'export-top');
+  });
+
+  $('#export-bottom').click(function() {
+    exportToSpotify();
+    ga('send', 'event', 'button', 'click', 'export', 'export-bottom');
+  });
+
+  function buildPlaylist(tracks) {
+    tracklist = [];
+    for (i in tracks) {
+      tracklist.push(tracks[i].id)
+    }
+    $.ajax({
+        url: 'https://api.spotify.com/v1/tracks',
+        data: {'ids':tracklist.join()},
+        headers: {
+          'Authorization': 'Bearer ' + access_token
+        },
+        success: function(response) {
+          tracks = selectPlaylistTracks(response.tracks,length_option);
+          playlist_length_ms = 0;
+          for (i in tracks) {
+            playlist_length_ms += tracks[i]['duration_ms'];
+            PVM.addSong(tracks[i].id,tracks[i].name,tracks[i].artists[0].name,tracks[i].album.images[1].url,tracks[i].preview_url,tracks[i].uri);
+          }
+          playlist_length = secondsToTime(playlist_length_ms/1000);
+          if (playlist_length.h == 0){
+            length_text = playlist_length.m + " minutes"
+          }
+          else {
+            length_text = "1 hour and " + playlist_length.m + " minutes"
+          }
+
+          $("#playlist-meta").text(tracks.length + " songs and is " + length_text);
+        }
+    });
+  }
+
+  function exportToSpotify(){
+    addExportOverlay();
+
+    ga('send', 'event', 'export-data', category_map[pl][playlist_option], length_option, user_tracks.length, {'nonInteraction': 1});
+
+    data = {
+      "name": category_map[pl][playlist_option] + ' QuickMix',
+      "public": false
+    }
+    $.ajax({
+      type : "POST",
+      url : "https://api.spotify.com/v1/users/"+userid+"/playlists",
+      data: JSON.stringify(data, null, '\t'),
+      headers: {
+        'Authorization': 'Bearer ' + access_token
+      },
+      contentType: 'application/json;charset=UTF-8',
+      success: function(result) {
+        playlist_id = result.id;
+        var tracklist = [];
+        for (i in PVM.songs()){
+          tracklist.push(PVM.songs()[i].uri)
+        }
+        // Populate playlist with tracks
+        $.ajax({
+          type : "POST",
+          url : "https://api.spotify.com/v1/users/"+userid+"/playlists/"+playlist_id+"/tracks?uri",
+          data: JSON.stringify({'uris':tracklist}, null, '\t'),
+          headers: {
+            'Authorization': 'Bearer ' + access_token
+          },
+          contentType: 'application/json;charset=UTF-8',
+          success: function(result) {
+            $('#export-playlist-text').text('Success!');
+            setTimeout( function() { window.location = '/' }, 1000 );
+          }
+        });
+      }
+    });
+  }
+
+  function shOverlay(URL) {
+    document.getElementById("spotifyOverlayText").innerHTML = "Something just isn’t quite right…";
+    setTimeout( function() { window.location =  URL}, 1200 );
+  }
 
 });

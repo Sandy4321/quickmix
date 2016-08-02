@@ -153,12 +153,15 @@ def tune():
 		tuners = ["Dinner","Feel Good","BBQ"];
 	else:
 		tuners = ["","",""];
+		pl_type = "bogus"
 
 	return render_template('tune.html', type=pl_type, tuners=tuners);
 
 @app.route('/playlist')
 def pl():
 	pl_type = request.args.get('pl')
+	if pl_type == None:
+		pl_type = 'bogus'
 	return render_template('playlist.html', type=pl_type)
 
 @app.route('/login',methods=['GET','POST'])
