@@ -222,7 +222,7 @@ $(document).ready(function() {
 
     data = {
       "name": category_map[pl][playlist_option] + ' QuickMix',
-      "public": false
+      "public": true
     }
     $.ajax({
       type : "POST",
